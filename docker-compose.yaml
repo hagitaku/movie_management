@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: backend
+    image: rust:latest
+    command: "cargo run"
+    volumes:
+      - ./backend:/projects
+    working_dir: /projects
+    environment:
+      - USER=user
+    ports:
+      - "8080:8080"
