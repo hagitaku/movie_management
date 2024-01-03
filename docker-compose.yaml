@@ -2,8 +2,7 @@ services:
   backend:
     build:
       context: backend
-    image: rust:latest
-    command: "cargo run"
+    command: "cargo watch -x run --poll"
     volumes:
       - ./backend:/projects
     working_dir: /projects
