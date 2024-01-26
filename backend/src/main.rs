@@ -1,9 +1,6 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+mod controller;
 
-#[get("/")]
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
+use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
 
 #[post("/echo")]
 async fn echo(req_body: String) -> impl Responder {
@@ -18,7 +15,7 @@ async fn manual_hello() -> impl Responder {
 async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
-            .service(hello)
+            .service(controller::health_check::hello)
             .service(echo)
             .route("/hey", web::get().to(manual_hello))
     })
