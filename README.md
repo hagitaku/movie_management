@@ -22,6 +22,7 @@ Rust
 Rust 1.75.0
 MySQL 8.0.35
 actix-web 4
+SeaORM 
 
 ## Frontend
 Next.js

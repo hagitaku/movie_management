@@ -6,7 +6,29 @@ services:
     volumes:
       - ./backend:/projects
     working_dir: /projects
-    environment:
-      - USER=user
     ports:
       - "8080:8080"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0.35
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
+  frontend:
+    build:
+      context: frontend
+    tty: true
+    volumes:
+      - ./frontend/projects:/app
+    environment:
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm run dev"
+    ports:
+      - "3000:3000"

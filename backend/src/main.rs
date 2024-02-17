@@ -1,4 +1,5 @@
 mod controller;
+mod db_connector;
 
 use actix_web::{post, web, App, HttpResponse, HttpServer, Responder};
 
@@ -13,6 +14,8 @@ async fn manual_hello() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    db_connector::db_init();
+
     HttpServer::new(|| {
         App::new()
             .service(controller::health_check::hello)
