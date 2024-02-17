@@ -1,6 +1,6 @@
 mod controller;
 mod setting;
-use actix_web::{web, App, HttpServer}; // 同じ階層にあるsettingモジュールをインポート
+use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
