@@ -12,8 +12,9 @@ async fn main() -> std::io::Result<()> {
     let database_pass = env::var("DATABASE_PASS").expect("DATABASE_PASS must be set");
     let database_url = format!(
         "{}{}{}{}{}",
-        "mysql://", database_user, ":", database_pass, "@127.0.0.1:3306"
+        "mysql://", database_user, ":", database_pass, "@0.0.0.0:3306"
     );
+    // デバッグよう
     println!("{}", database_url);
 
     // DB接続
@@ -24,7 +25,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(state.clone()))
-            .service(controller::health_check::hello)
+            .service(controller::health_check::health_check)
     })
     .bind(("0.0.0.0", 8080))? // docker の場合、0.0.0.0 で listen する必要がある
     .run()

@@ -10,6 +10,10 @@ services:
       - "8080:8080"
     depends_on:
       - mysql
+    environment:
+      RUST_BACKTRACE: 1
+    networks:
+      - app-net
 
   mysql:
     image: mysql:8.0.35
@@ -20,6 +24,8 @@ services:
       MYSQL_DATABASE: db
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+    networks:
+      - app-net
 
   frontend:
     build:
@@ -32,3 +38,7 @@ services:
     command: sh -c "npm run dev"
     ports:
       - "3000:3000"
+
+networks:
+  app-net:
+    driver: bridge
