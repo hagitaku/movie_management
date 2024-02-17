@@ -14,8 +14,6 @@ async fn main() -> std::io::Result<()> {
         "{}{}{}{}{}",
         "mysql://", database_user, ":", database_pass, "@mysql:3306"
     );
-    // デバッグ用
-    println!("{}", database_url);
 
     // DB接続
     let conn: sea_orm::prelude::DatabaseConnection =
