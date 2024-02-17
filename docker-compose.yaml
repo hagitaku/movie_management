@@ -10,3 +10,15 @@ services:
       - USER=user
     ports:
       - "8080:8080"
+  frontend:
+    build:
+      context: frontend
+    tty: true
+    volumes:
+      - ./frontend/projects:/app
+    environment:
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm run dev"
+    ports:
+      - "3000:3000"
+
