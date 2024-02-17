@@ -12,9 +12,9 @@ async fn main() -> std::io::Result<()> {
     let database_pass = env::var("DATABASE_PASS").expect("DATABASE_PASS must be set");
     let database_url = format!(
         "{}{}{}{}{}",
-        "mysql://", database_user, ":", database_pass, "@0.0.0.0:3306"
+        "mysql://", database_user, ":", database_pass, "@mysql:3306"
     );
-    // デバッグよう
+    // デバッグ用
     println!("{}", database_url);
 
     // DB接続

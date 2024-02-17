@@ -26,6 +26,8 @@ services:
       MYSQL_PASSWORD: password
     networks:
       - app-net
+    volumes:
+      - ./backend/db/my.cnf:/etc/mysql/my.cnf
 
   frontend:
     build:
