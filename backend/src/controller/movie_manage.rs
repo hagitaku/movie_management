@@ -5,7 +5,7 @@ use sea_orm::DatabaseConnection;
 // ../form/movie_registration.rs から MovieRegistrationRequest と MovieRegistrationResponse をインポート
 use crate::form::commom_error::internal_server_error;
 use crate::form::commom_error::CommonErrorResponseBody;
-use crate::form::movie_registration::{MovieRegistrationRequest, MovieRegistrationResponse};
+use crate::form::movie_registration::MovieRegistrationResponse;
 
 // 映画を登録するapi
 #[post("/movie/register")]
