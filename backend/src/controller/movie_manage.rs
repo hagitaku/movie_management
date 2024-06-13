@@ -12,7 +12,7 @@ use sea_orm::DatabaseConnection;
     path = "/movie/register",
     request_body = MovieRegistrationRequest,
     responses(
-        (status = 200, description = "ヘルスチェック用エンドポイント", body = MovieRegistrationResponse),
+        (status = 200, description = "登録成功時", body = MovieRegistrationResponse),
         (status = 500, description = "エラー発生時", body = CommonErrorResponseBody),
     )
 )]
