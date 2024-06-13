@@ -2,9 +2,12 @@ mod controller;
 mod form;
 mod model;
 mod setting;
+use crate::form::health_check::HealthCheckResponse;
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -27,8 +30,19 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(state.clone()))
             .service(controller::health_check::health_check)
             .service(controller::movie_manage::movie_register)
+            .service(
+                SwaggerUi::new("/swagger-ui/{_:.*}")
+                    .url("/api-doc/opanapi.json", ApiDoc::openapi()),
+            )
     })
     .bind(("0.0.0.0", 8080))? // docker の場合、0.0.0.0 で listen する必要がある
     .run()
     .await
 }
+
+#[derive(OpenApi)]
+#[openapi(
+    paths(controller::health_check::health_check),
+    components(schemas(HealthCheckResponse))
+)]
+struct ApiDoc;
