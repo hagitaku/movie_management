@@ -1,0 +1,14 @@
+.main {
+    padding: 12px 24px;
+    height: 48px;
+    background-color: #fafafa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main h1{
+    color: #303030;
+    font-size: 24px;
+    font-weight: bold;
+}
