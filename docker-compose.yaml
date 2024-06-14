@@ -1,0 +1,46 @@
+services:
+  backend:
+    build:
+      context: backend
+    command: "cargo watch -x run --poll"
+    volumes:
+      - ./backend:/projects
+    working_dir: /projects
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      RUST_BACKTRACE: 1
+    networks:
+      - app-net
+
+  mysql:
+    image: mysql:8.0.35
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      - app-net
+    volumes:
+      - ./backend/db/my.cnf:/etc/mysql/my.cnf
+
+  frontend:
+    build:
+      context: frontend
+    tty: true
+    volumes:
+      - ./frontend/projects:/app
+    environment:
+      - WATCHPACK_POLLING=true
+    command: sh -c "npm run dev"
+    ports:
+      - "3000:3000"
+
+networks:
+  app-net:
+    driver: bridge
