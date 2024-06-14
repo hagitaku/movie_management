@@ -30,3 +30,5 @@ backendを実行するには、以下のコマンドを実行してください�
 ```bash
 cargo run
 ```
+
+swaggerは`cargo run`を実行した後、`http://localhost:8080/swagger-ui/#/`にアクセスすることで参照できます
