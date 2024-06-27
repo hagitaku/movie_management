@@ -1,5 +1,5 @@
-import style from "../css/register.module.css";
-export default function register(){
+import style from "./Register.module.css";
+export const Register = () =>{
     async function postRegisterForm(formData : any) {
         'use server'
         var movieTitle = formData.get("movie_title");
@@ -37,3 +37,4 @@ export default function register(){
         </main>
     )
 }
+export default Register;
