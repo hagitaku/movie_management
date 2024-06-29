@@ -1,4 +1,8 @@
 import style from "./Register.module.css";
+import {useForm} from "react-hook-form";
+import TextBox from "../components/form/TextBox/TextBox";
+import TextBoxArea from "../components/form/TextBoxArea/TextBoxArea";
+
 export const Register = () =>{
     async function postRegisterForm(formData : any) {
         'use server'
@@ -12,24 +16,9 @@ export const Register = () =>{
     return (
         <main className={style.main}>
             <form className={style.form_group} action={postRegisterForm}>
-                <div className={style.form_group}>
-                    <label htmlFor="name">映画タイトル</label>
-                    <div className={style.form_input}>
-                        <input name="movie_title" type="text"></input>
-                    </div>
-                </div>
-                <div className={style.form_group}>
-                    <label htmlFor="name">映画情報</label>
-                    <div className={style.form_input}>
-                        <textarea name="movie_contents" rows={6} cols={40}></textarea>
-                    </div>
-                </div>
-                <div className={style.form_group}>
-                    <label htmlFor="name">メモ</label>
-                    <div className={style.form_input}>
-                        <textarea name="movie_memo" rows={6} cols={40}></textarea>
-                    </div>
-                </div>
+                <TextBox textBoxName="映画タイトル" textBoxLabel="movie_title" textBoxType="text" />
+                <TextBoxArea textBoxAreaName="映画情報" textBoxAreaLabel="movie_contents" textBoxAreaRows={6} textBoxAreaCols={40}/>
+                <TextBoxArea textBoxAreaName="メモ" textBoxAreaLabel="movie_memo" textBoxAreaRows={6} textBoxAreaCols={40} />
                 <div className={style.form_btn}>
                     <button id="register_btn" type="submit">登録</button>
                 </div>
