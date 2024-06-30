@@ -1,5 +1,5 @@
 import style from "./TextBoxArea.module.css";
-import { UseFormRegisterReturn, UseFormReturn } from "react-hook-form";
+import { UseFormRegisterReturn} from "react-hook-form";
 
 type TextBoxAreaProps = {
     title: string;

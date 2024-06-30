@@ -1,6 +1,6 @@
 "use client"
 import style from "./Register.module.css";
-import {useForm, useFormContext} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import TextBox from "../components/form/TextBox/TextBox";
 import TextBoxArea from "../components/form/TextBoxArea/TextBoxArea";
 
