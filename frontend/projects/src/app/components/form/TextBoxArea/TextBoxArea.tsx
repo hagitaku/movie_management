@@ -1,17 +1,24 @@
 import style from "./TextBoxArea.module.css";
+import { UseFormRegister } from "react-hook-form";
 
 type TextBoxAreaProps = {
-    textBoxAreaName: string;
-    textBoxAreaLabel: string;
-    textBoxAreaRows: number;
-    textBoxAreaCols: number;
+    title: string;
+    name: string;
+    rows?: number;
+    cols?: number;
 }
 const TextBoxArea = (props : TextBoxAreaProps) =>{
+    const {
+        title,
+        name,
+        rows,
+        cols
+    } = props;
     return(
         <div className={style.form_group}>
-            <label htmlFor="name">{ props.textBoxAreaName }</label>
+            <label htmlFor={name}>{ title }</label>
             <div className={style.form_input}>
-                <textarea name={props.textBoxAreaLabel} rows={props.textBoxAreaRows} cols={props.textBoxAreaCols}></textarea>
+                <textarea name={name} rows={rows || 6} cols={cols || 40}></textarea>
             </div>
         </div>
     )

@@ -1,16 +1,19 @@
 import style from "./TextBox.module.css";
 
 type TextBoxProps = {
-    textBoxName: string;
-    textBoxLabel: string;
-    textBoxType: string;
+    title: string;
+    name: string;
 }
 const TextBox = (props : TextBoxProps) =>{
+    const{
+        title,
+        name
+    } = props;
     return(
-        <div className={style.form_group}>
-            <label htmlFor="name">{ props.textBoxName }</label>
+        <div className={style.form_group}> 
+            <label htmlFor={name}>{ title }</label>
             <div className={style.form_input}>
-                <input name={props.textBoxLabel} type={props.textBoxType}></input>
+                <input id={name} name={name} type="text"></input>
             </div>
         </div>
     )
