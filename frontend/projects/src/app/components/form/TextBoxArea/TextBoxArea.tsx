@@ -1,12 +1,12 @@
 import style from "./TextBoxArea.module.css";
-import { UseFormRegisterReturn} from "react-hook-form";
+import { UseFormReturn} from "react-hook-form";
 
 type TextBoxAreaProps = {
     title: string;
     name: string;
     rows?: number;
     cols?: number;
-    register: UseFormRegisterReturn;
+    form: UseFormReturn;
 }
 const TextBoxArea = (props : TextBoxAreaProps) =>{
     const {
@@ -14,13 +14,14 @@ const TextBoxArea = (props : TextBoxAreaProps) =>{
         name,
         rows,
         cols,
-        register
+        form,
     } = props;
+    const { register } = form;
     return(
         <div className={style.form_group}>
             <label htmlFor={name}>{ title }</label>
             <div className={style.form_input}>
-                <textarea {...register} rows={rows || 6} cols={cols || 40}></textarea>
+                <textarea {...register(name)} rows={rows || 6} cols={cols || 40}></textarea>
             </div>
         </div>
     )

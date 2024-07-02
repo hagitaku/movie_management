@@ -10,8 +10,9 @@ type RegisterProps={
     movieMemo:string;
 };
 export const Register = () =>{
-    const {register,handleSubmit} = useForm<RegisterProps>();
-    const postRegisterForm = (formData : RegisterProps) =>{
+    const form = useForm();
+    const { handleSubmit } = form;
+    const postRegisterForm = (formData : any) =>{
         const{
             movieTitle,
             movieContents,
@@ -24,9 +25,9 @@ export const Register = () =>{
     return (
         <main className={style.main}>
             <form className={style.form_group} onSubmit={handleSubmit(postRegisterForm)}>
-                <TextBox title="映画タイトル" name="movie_title" register={register("movieTitle")}/>
-                <TextBoxArea title="映画情報" name="movie_contents" register={register("movieContents")}/>
-                <TextBoxArea title="メモ" name="movie_memo" register={register("movieMemo")}/>
+                <TextBox title="映画タイトル" name="movieTitle" form={ form }/>
+                <TextBoxArea title="映画情報" name="movieContents" form={ form }/>
+                <TextBoxArea title="メモ" name="movieMemo" form={ form }/>
                 <div className={style.form_btn}>
                     <button id="register_btn" type="submit">登録</button>
                 </div>
