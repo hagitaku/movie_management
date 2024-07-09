@@ -4,15 +4,15 @@ import {useForm} from "react-hook-form";
 import TextBox from "../components/form/TextBox/TextBox";
 import TextBoxArea from "../components/form/TextBoxArea/TextBoxArea";
 
-type MovieCreateForm={
+type MovieCreationForm={
     movieTitle: string;
     movieContents: string;
     movieMemo:string;
 };
-export const Register = () =>{
-    const form = useForm<MovieCreateForm>();
+export const Create = () =>{
+    const form = useForm<MovieCreationForm>();
     const { handleSubmit } = form;
-    const postRegisterForm = (formData : MovieCreateForm) =>{
+    const postCreateForm = (formData : MovieCreationForm) =>{
         const{
             movieTitle,
             movieContents,
@@ -24,7 +24,7 @@ export const Register = () =>{
     }
     return (
         <main className={style.main}>
-            <form className={style.form_group} onSubmit={handleSubmit(postRegisterForm)}>
+            <form className={style.form_group} onSubmit={handleSubmit(postCreateForm)}>
                 <TextBox title="映画タイトル" name="movieTitle" form={ form }/>
                 <TextBoxArea title="映画情報" name="movieContents" form={ form }/>
                 <TextBoxArea title="メモ" name="movieMemo" form={ form }/>
@@ -35,4 +35,4 @@ export const Register = () =>{
         </main>
     )
 }
-export default Register;
+export default Create;
