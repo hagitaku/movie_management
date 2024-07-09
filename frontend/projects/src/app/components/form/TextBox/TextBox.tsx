@@ -1,12 +1,13 @@
-import { UseFormReturn} from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
+import type { FieldValues, Path } from "react-hook-form";
 import style from "./TextBox.module.css";
 
-type TextBoxProps={
+type TextBoxProps<T extends FieldValues> = {
     title: string;
-    name: string;
+    name: Path<T>;
     form: UseFormReturn;
 };
-const TextBox = (props : TextBoxProps) =>{
+const TextBox = <T extends FieldValues>(props : TextBoxProps<T>) =>{
     const{
         title,
         name,

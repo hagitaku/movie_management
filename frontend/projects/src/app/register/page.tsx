@@ -4,15 +4,15 @@ import {useForm} from "react-hook-form";
 import TextBox from "../components/form/TextBox/TextBox";
 import TextBoxArea from "../components/form/TextBoxArea/TextBoxArea";
 
-type RegisterProps={
+type MovieCreateForm={
     movieTitle: string;
     movieContents: string;
     movieMemo:string;
 };
 export const Register = () =>{
-    const form = useForm();
+    const form = useForm<MovieCreateForm>();
     const { handleSubmit } = form;
-    const postRegisterForm = (formData : any) =>{
+    const postRegisterForm = (formData : MovieCreateForm) =>{
         const{
             movieTitle,
             movieContents,

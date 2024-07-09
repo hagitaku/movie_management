@@ -1,14 +1,15 @@
 import style from "./TextBoxArea.module.css";
-import { UseFormReturn} from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
+import { FieldValues, Path } from "react-hook-form";
 
-type TextBoxAreaProps = {
+type TextBoxAreaProps<T extends FieldValues> = {
     title: string;
-    name: string;
+    name: Path<T>;
     rows?: number;
     cols?: number;
     form: UseFormReturn;
 }
-const TextBoxArea = (props : TextBoxAreaProps) =>{
+const TextBoxArea = <T extends FieldValues>(props : TextBoxAreaProps<T>) =>{
     const {
         title,
         name,
