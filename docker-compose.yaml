@@ -5,6 +5,7 @@ services:
     command: "cargo watch -x run --poll"
     volumes:
       - ./backend:/projects
+      - backend_target:/projects/target
     working_dir: /projects
     ports:
       - "8080:8080"
@@ -44,3 +45,6 @@ services:
 networks:
   app-net:
     driver: bridge
+
+volumes:
+  backend_target:

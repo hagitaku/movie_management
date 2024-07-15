@@ -2,7 +2,8 @@ mod controller;
 mod form;
 mod model;
 mod setting;
-use actix_web::{web, App, HttpServer};
+use actix_cors::Cors;
+use actix_web::{http, web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 use utoipa::OpenApi;
@@ -26,7 +27,13 @@ async fn main() -> std::io::Result<()> {
     let state: setting::AppState = setting::AppState { conn };
 
     HttpServer::new(move || {
+        let cors = Cors::default()
+            .allowed_origin("http://localhost:3000")
+            .allowed_methods(vec!["GET", "POST", "OPTIONS", "DELETE", "PUT"])
+            .allowed_header(http::header::CONTENT_TYPE);
+
         App::new()
+            .wrap(cors)
             .app_data(web::Data::new(state.clone()))
             .service(controller::health_check::health_check)
             .service(controller::movie_manage::movie_register)
