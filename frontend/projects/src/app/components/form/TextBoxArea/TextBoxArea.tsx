@@ -7,7 +7,7 @@ type TextBoxAreaProps<T extends FieldValues> = {
     name: Path<T>;
     rows?: number;
     cols?: number;
-    form: UseFormReturn;
+    form: UseFormReturn<T>;
 }
 const TextBoxArea = <T extends FieldValues>(props : TextBoxAreaProps<T>) =>{
     const {
