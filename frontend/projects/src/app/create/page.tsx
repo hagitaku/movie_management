@@ -26,14 +26,16 @@ export const Create = () =>{
             const BASE_API_URL = "http://127.0.0.1:8080/";
             const REGISTER_API_PATH = "movie/register"
             const postUrl = BASE_API_URL+REGISTER_API_PATH;
-            const response = await axios.post(postUrl,{
+            const request = {
                 "title":movieTitle,
                 "description":movieContents,
                 "memo":movieMemo,
-            });
+                "session_token":"aaaaa",
+            };
+            const response = await axios.post(postUrl,request);
             console.log("Post Success:",response.data);
         }catch(error){
-            console.log("Post error:",error);
+            console.log("Post Failure:",error);
         }
     }
     return (
