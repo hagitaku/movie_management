@@ -23,7 +23,7 @@ export const Create = () =>{
         console.log("Contents:",movieContents);
         console.log("Memo:",movieMemo);
         try{
-            const BASE_API_URL = "http://backend:8080/";
+            const BASE_API_URL = "http://127.0.0.1:8080/";
             const REGISTER_API_PATH = "movie/register"
             const postUrl = BASE_API_URL+REGISTER_API_PATH;
             const response = await axios.post(postUrl,{
