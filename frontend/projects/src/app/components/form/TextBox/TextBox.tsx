@@ -15,9 +15,9 @@ const TextBox = <T extends FieldValues>(props : TextBoxProps<T>) =>{
     } = props;
     const { register } = form;
     return(
-        <div className={style.form_group}> 
+        <div className={style.textBoxField}> 
             <label htmlFor={name}>{ title }</label>
-            <div className={style.form_input}>
+            <div className={style.textBoxInput}>
                 <input id={name} {...register(name)} type="text"></input>
             </div>
         </div>

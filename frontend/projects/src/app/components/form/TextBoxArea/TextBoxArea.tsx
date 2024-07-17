@@ -19,9 +19,9 @@ const TextBoxArea = <T extends FieldValues>(props : TextBoxAreaProps<T>) =>{
     } = props;
     const { register } = form;
     return(
-        <div className={style.form_group}>
+        <div className={style.textBoxAreaField}>
             <label htmlFor={name}>{ title }</label>
-            <div className={style.form_input}>
+            <div className={style.textBoxAreaInput}>
                 <textarea {...register(name)} rows={rows || 6} cols={cols || 40}></textarea>
             </div>
         </div>
