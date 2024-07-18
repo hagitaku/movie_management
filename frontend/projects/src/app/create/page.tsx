@@ -1,11 +1,9 @@
 "use client"
 import style from "./Register.module.css";
-import {useForm} from "react-hook-form";
+import {SubmitHandler, useForm} from "react-hook-form";
 import TextBox from "@/components/form/TextBox/TextBox";
 import TextBoxArea from "@/components/form/TextBoxArea/TextBoxArea";
-import { BASE_API_URL,REGISTER_POST_PATH } from "@/constants/constants";
-import axios from "axios";
-
+import postCreateForm from "@/api/post";
 type MovieCreationForm={
     movieTitle: string;
     movieContents: string;
@@ -14,32 +12,24 @@ type MovieCreationForm={
 export const Create = () =>{
     const form = useForm<MovieCreationForm>();
     const { handleSubmit } = form;
-    const postCreateForm = async (formData : MovieCreationForm) =>{
-        const{
+    const onSubmit : SubmitHandler<MovieCreationForm> = (submitForm : MovieCreationForm) =>{
+        const {
             movieTitle,
-            movieContents,
             movieMemo,
-        }=formData;
-        console.log("Title:",movieTitle);
-        console.log("Contents:",movieContents);
-        console.log("Memo:",movieMemo);
-        try{
-            const postUrl = BASE_API_URL + REGISTER_POST_PATH;
-            const request = {
-                "title":movieTitle,
-                "description":movieContents,
-                "memo":movieMemo,
-                "session_token":"aaaaa",
-            };
-            const response = await axios.post(postUrl,request);
-            console.log("Post Success:",response.data);
-        }catch(error){
-            console.log("Post Failure:",error);
-        }
+            movieContents
+        } = submitForm;
+        const request = {
+            "title":movieTitle,
+            "description":movieContents,
+            "memo":movieMemo,
+            "session_token":"aaaaa", // 仮状態で適当な文字列に設定
+        };
+        const response = postCreateForm(request);
+        console.log(response);
     }
     return (
         <main className={style["main"]}>
-            <form className={style["create-form"]} onSubmit={handleSubmit(postCreateForm)}>
+            <form className={style["create-form"]} onSubmit={handleSubmit(onSubmit)} >
                 <TextBox title="映画タイトル" name="movieTitle" form={ form }/>
                 <TextBoxArea title="映画情報" name="movieContents" form={ form }/>
                 <TextBoxArea title="メモ" name="movieMemo" form={ form }/>
