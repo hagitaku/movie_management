@@ -39,12 +39,12 @@ export const Create = () =>{
         }
     }
     return (
-        <main className={style.main}>
-            <form className={style.createForm} onSubmit={handleSubmit(postCreateForm)}>
+        <main className={style["main"]}>
+            <form className={style["create-form"]} onSubmit={handleSubmit(postCreateForm)}>
                 <TextBox title="映画タイトル" name="movieTitle" form={ form }/>
                 <TextBoxArea title="映画情報" name="movieContents" form={ form }/>
                 <TextBoxArea title="メモ" name="movieMemo" form={ form }/>
-                <div className={style.createFormBtn}>
+                <div className={style["create-form-btn"]}>
                     <button id="createBtn" type="submit">登録</button>
                 </div>
             </form>
