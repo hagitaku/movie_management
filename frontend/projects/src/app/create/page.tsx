@@ -1,8 +1,9 @@
 "use client"
 import style from "./Register.module.css";
 import {useForm} from "react-hook-form";
-import TextBox from "../components/form/TextBox/TextBox";
-import TextBoxArea from "../components/form/TextBoxArea/TextBoxArea";
+import TextBox from "@/components/form/TextBox/TextBox";
+import TextBoxArea from "@/components/form/TextBoxArea/TextBoxArea";
+import { BASE_API_URL,REGISTER_POST_PATH } from "@/constants/constants";
 import axios from "axios";
 
 type MovieCreationForm={
@@ -23,9 +24,7 @@ export const Create = () =>{
         console.log("Contents:",movieContents);
         console.log("Memo:",movieMemo);
         try{
-            const BASE_API_URL = "http://127.0.0.1:8080/";
-            const REGISTER_API_PATH = "movie/register"
-            const postUrl = BASE_API_URL+REGISTER_API_PATH;
+            const postUrl = BASE_API_URL + REGISTER_POST_PATH;
             const request = {
                 "title":movieTitle,
                 "description":movieContents,
