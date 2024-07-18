@@ -4,9 +4,6 @@ const Header = () =>{
     return (
         <header className={style.main}>
             <h1>
-
-            </h1>
-            <h1>
                 login
             </h1>
         </header>
