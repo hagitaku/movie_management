@@ -2,14 +2,14 @@ import style from "./TextBoxArea.module.css";
 import { UseFormReturn } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
 
-type TextBoxAreaProps<T extends FieldValues> = {
+type TextAreaProps<T extends FieldValues> = {
     title: string;
     name: Path<T>;
     rows?: number;
     cols?: number;
     form: UseFormReturn<T>;
 }
-const TextBoxArea = <T extends FieldValues>(props : TextBoxAreaProps<T>) =>{
+const TextArea = <T extends FieldValues>(props : TextAreaProps<T>) =>{
     const {
         title,
         name,
@@ -19,12 +19,12 @@ const TextBoxArea = <T extends FieldValues>(props : TextBoxAreaProps<T>) =>{
     } = props;
     const { register } = form;
     return(
-        <div className={style["text-box-area-field"]}>
+        <div className={style["text-area-field"]}>
             <label htmlFor={name}>{ title }</label>
-            <div className={style["text-box-area-input"]}>
+            <div className={style["text-area-input"]}>
                 <textarea {...register(name)} rows={rows || 6} cols={cols || 40}></textarea>
             </div>
         </div>
     )
 }
-export default TextBoxArea;
+export default TextArea;
