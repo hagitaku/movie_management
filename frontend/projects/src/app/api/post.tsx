@@ -1,20 +1,19 @@
-
-import { BASE_API_URL,REGISTER_POST_PATH } from "@/constants/constants";
+import { BASE_API_URL, REGISTER_POST_PATH } from "@/constants/constants";
 import axios from "axios";
 
 type PostCreateMovieRequest = {
-    title:String,
-    description:String,
-    memo:String,
-    session_token:String
+  title: string;
+  description: string;
+  memo: string;
+  session_token: string;
 };
-const postCreateForm = async (request : PostCreateMovieRequest) =>{
-    const postUrl = BASE_API_URL + REGISTER_POST_PATH;
-    try{
-        const response = await axios.post(postUrl,request);
-        return response;
-    }catch(error){
-        return error;
-    }
-}
-export default postCreateForm;
+const postCreate = async (request: PostCreateMovieRequest) => {
+  const postUrl = BASE_API_URL + REGISTER_POST_PATH;
+  try {
+    const response = await axios.post(postUrl, request);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+export default postCreate;
