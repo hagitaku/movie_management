@@ -1,4 +1,4 @@
-import style from "./TextBoxArea.module.css";
+import style from "./style.module.css";
 import { UseFormReturn } from "react-hook-form";
 import { FieldValues, Path } from "react-hook-form";
 

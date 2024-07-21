@@ -1,8 +1,8 @@
 "use client"
 import style from "./Register.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
-import TextBox from "@/components/form/TextBox/TextBox";
-import TextBoxArea from "@/components/form/TextBoxArea/TextBoxArea";
+import TextBox from "@/components/form/TextBox";
+import TextBoxArea from "@/components/form/TextArea";
 import postCreate from "@/api/post";
 type MovieCreationForm = {
     movieTitle: string;
@@ -27,7 +27,7 @@ export const Create = () => {
         const response = postCreate(request);
         console.log(response);
     }
-    
+
     return (
             <form className={style["create-form"]} onSubmit={handleSubmit(handleSubmitCreateBtn)} >
                 <TextBox title="映画タイトル" name="movieTitle" form={form} />

@@ -1,4 +1,4 @@
-import { BASE_API_URL, REGISTER_POST_PATH } from "@/constants/constants";
+import { BASE_API_URL, REGISTER_POST_PATH } from "@/constants";
 import axios from "axios";
 
 type PostCreateMovieRequest = {

@@ -1,6 +1,6 @@
 import { UseFormReturn } from "react-hook-form";
 import type { FieldValues, Path } from "react-hook-form";
-import style from "./TextBox.module.css";
+import style from "./style.module.css";
 
 type TextBoxProps<T extends FieldValues> = {
     title: string;
