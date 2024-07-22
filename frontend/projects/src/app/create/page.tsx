@@ -1,5 +1,5 @@
 "use client"
-import style from "./Register.module.css";
+import style from "./style.module.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import TextBox from "@/components/form/TextBox";
 import TextBoxArea from "@/components/form/TextArea";
@@ -12,7 +12,7 @@ type MovieCreationForm = {
 export const Create = () => {
     const form = useForm<MovieCreationForm>();
     const { handleSubmit } = form;
-    const handleSubmitCreateBtn: SubmitHandler<MovieCreationForm> = (submitForm: MovieCreationForm) => {
+    const handleSubmitCreateButton: SubmitHandler<MovieCreationForm> = (submitForm: MovieCreationForm) => {
         const {
             movieTitle,
             movieMemo,
@@ -29,12 +29,12 @@ export const Create = () => {
     }
 
     return (
-            <form className={style["create-form"]} onSubmit={handleSubmit(handleSubmitCreateBtn)} >
+            <form className={style["create-form"]} onSubmit={handleSubmit(handleSubmitCreateButton)} >
                 <TextBox title="映画タイトル" name="movieTitle" form={form} />
                 <TextBoxArea title="映画情報" name="movieContents" form={form} />
                 <TextBoxArea title="メモ" name="movieMemo" form={form} />
-                <div className={style["create-form-btn"]}>
-                    <button id="createBtn" type="submit">登録</button>
+                <div className={style["create-form-button"]}>
+                    <button id="createButton" type="submit">登録</button>
                 </div>
             </form>
     )
