@@ -1,0 +1,14 @@
+.header-field {
+    padding: 12px 24px;
+    height: 48px;
+    background-color: #fafafa;
+}
+
+.header-login-txt{
+    color: #303030;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+}
