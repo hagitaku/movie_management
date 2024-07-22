@@ -18,6 +18,7 @@ const TextArea = <T extends FieldValues>(props : TextAreaProps<T>) =>{
         form,
     } = props;
     const { register } = form;
+    
     return(
         <div className={style["text-area-field"]}>
             <label htmlFor={name}>{ title }</label>
