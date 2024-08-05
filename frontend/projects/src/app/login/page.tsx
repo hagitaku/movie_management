@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import style from "./style.module.css";
 import { useForm,SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
+import TextBox from "@/components/form/TextBox";
 
 export const Login = () =>{
     const loginSchema = yup.object({
@@ -40,23 +41,13 @@ export const Login = () =>{
         <div className={style["login-form-container"]}>
             <form className={style["login-form"]} onSubmit={handleSubmit(handleClickLoginButton)}>
                 <div className={style["login-id-field"]}>
-                    <label className={style["login-id-label"]} htmlFor="login-id">
-                        ID
-                    </label>
-                    <div className={style["login-id"]}>
-                        <input type="text" id="login-id" {...register("loginId")}></input>
-                    </div>
+                    <TextBox title="ID" name="loginId" form={form} />
                     <div className={style["login-id-error-message"]}>
                         {errors.loginId && errors.loginId.message}
                     </div>
                 </div>
                 <div className={style["login-password-field"]}>
-                    <label className={style["login-password-label"]} htmlFor="login-password">
-                        パスワード
-                    </label>
-                    <div>
-                        <input type="password" id="login-password" {...register("password")}></input>
-                    </div>
+                    <TextBox title="パスワード" name="password" type="password" form={form} />
                     <div className={style["login-password-error-message"]}>
                         {errors.password && errors.password.message}
                     </div>
