@@ -28,7 +28,6 @@ export const Login = () =>{
         resolver: yupResolver(loginSchema)
     });
     const {
-        register,
         handleSubmit,
         formState: {errors}
     } = form;
