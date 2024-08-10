@@ -2,12 +2,10 @@ use crate::form::account_manage::AccountRegisterRequest;
 use crate::form::account_manage::AccountRegisterResponse;
 use crate::form::account_manage::LoginRequest;
 use crate::form::account_manage::LoginResponse;
-
-use crate::form::commom_error::internal_server_error;
-use crate::form::commom_error::CommonErrorResponseBody;
+use crate::form::common_error::internal_server_error;
+use crate::form::common_error::CommonErrorResponseBody;
 use crate::setting::AppState;
-use actix_web::post;
-use actix_web::{web, Error, HttpResponse};
+use actix_web::{post, web, Error, HttpResponse};
 use sea_orm::DatabaseConnection;
 
 #[utoipa::path(

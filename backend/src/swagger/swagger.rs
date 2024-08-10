@@ -9,7 +9,7 @@ use utoipa::OpenApi;
         crate::controller::account_manage::auth_login
     ),
     components(schemas(
-        crate::form::commom_error::CommonErrorResponseBody,
+        crate::form::common_error::CommonErrorResponseBody,
         crate::form::health_check::HealthCheckResponse,
         crate::form::movie_registration::MovieRegistrationRequest,
         crate::form::movie_registration::MovieRegistrationResponse,
