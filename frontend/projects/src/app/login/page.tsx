@@ -9,17 +9,20 @@ export const Login = () =>{
     const loginSchema = yup.object({
         loginId: yup
             .string()
-            .max(10,"10文字以内で入力してください．")
-            .test("only-alphabet","アルファベットのみで入力してください．",function (value : any){
-                return !!value.match(/^[a-zA-Z]+$/);
+            .max(16,"16文字以内で入力してください．")
+            .test("loginId-validation","アルファベット・数字・記号(_-@$)のみで入力してください．",function (value : any){
+                return !!value.match(/^[0-9a-zA-Z_\-@\$]+$/);
             })
             .required("必須項目です．"),
         password: yup
             .string()
-            .min(8,"8文字以上20文字以内で入力してください．")
-            .max(20,"8文字以上20文字以内で入力してください．")
-            .test("no-specific-character","アルファベット・数字・記号(@/*)のみで入力してください．", function (value : any){
-                return !!value.match(/^[0-9a-zA-Z@\/\*]+$/);
+            .min(8,"8文字以上32文字以内で入力してください．")
+            .max(32,"8文字以上32文字以内で入力してください．")
+            .test("password-validation-available","アルファベット・数字・記号(_-@$)のみで入力してください．", function (value : any){
+                return !!value.match(/^[0-9a-zA-Z_\-@\$]+$/);
+            })
+            .test("password-validation-required-character","アルファベットと数字はどちらも1文字以上含めてください．",function (value : any){
+                return !!value.match(/^(?=.*[a-zA-Z])(?=.*[0-9])[_\-@\$a-zA-Z0-9]+$/)
             })
             .required("必須項目です．"),
     });
