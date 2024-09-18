@@ -4,8 +4,12 @@ import style from "./style.module.css";
 import { useForm,SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import TextBox from "@/components/form/TextBox";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export const Login = () =>{
+    const router = useRouter();
+    const [error,setError] = useState("");
     const loginSchema = yup.object({
         loginId: yup
             .string()
@@ -35,8 +39,25 @@ export const Login = () =>{
         formState: {errors}
     } = form;
     const handleClickLoginButton : SubmitHandler<LoginForm> = (submitForm : LoginForm) => {
-        console.log(submitForm);
-        alert("ログインしました！");
+        try{
+            // TODO: ユーザログインのAPIが完成次第，処理を追加
+            const response = "success";
+            const status = 200;
+            if(status == 200){
+                router.push("../movielist")
+                console.log(submitForm);
+                alert("ログインしました！");
+            }
+            else if(status == 400){
+                setError("ユーザ名またはパスワードが間違っています．");
+            }
+            else{
+                setError("ログインに失敗しました．もう一度お試しください．");
+            }
+        }catch(error){
+            // エラーハンドリング
+            setError("サーバーエラーが発生しました．");
+        }
     }
 
     return (
