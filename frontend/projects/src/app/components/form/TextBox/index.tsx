@@ -5,12 +5,14 @@ import style from "./style.module.css";
 type TextBoxProps<T extends FieldValues> = {
     title: string;
     name: Path<T>;
+    type?: "text" | "password";
     form: UseFormReturn<T>;
 };
 const TextBox = <T extends FieldValues>(props : TextBoxProps<T>) =>{
     const{
         title,
         name,
+        type,
         form,
     } = props;
     const { register } = form;
@@ -19,7 +21,7 @@ const TextBox = <T extends FieldValues>(props : TextBoxProps<T>) =>{
         <div className={style["text-box-field"]}> 
             <label htmlFor={name}>{ title }</label>
             <div className={style["text-box-input"]}>
-                <input id={name} {...register(name)} type="text"></input>
+                <input id={name} {...register(name)} type={type || "text"}></input>
             </div>
         </div>
     )
