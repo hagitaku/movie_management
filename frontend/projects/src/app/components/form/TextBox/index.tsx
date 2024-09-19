@@ -5,7 +5,7 @@ import style from "./style.module.css";
 type TextBoxProps<T extends FieldValues> = {
     title: string;
     name: Path<T>;
-    type?: string;
+    type?: "text" | "password";
     form: UseFormReturn<T>;
 };
 const TextBox = <T extends FieldValues>(props : TextBoxProps<T>) =>{
