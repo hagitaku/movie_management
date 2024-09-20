@@ -1,9 +1,8 @@
-use crate::form::account_manage::AccountRegisterRequest;
-use crate::form::account_manage::AccountRegisterResponse;
-use crate::form::account_manage::LoginRequest;
-use crate::form::account_manage::LoginResponse;
-use crate::form::common_error::internal_server_error;
-use crate::form::common_error::CommonErrorResponseBody;
+use crate::controller::orm::account_manage::insert_account;
+use crate::controller::validation::account_manage::validation_account_manage;
+use crate::form::account_manage::{AccountRegisterRequest, AccountRegisterResponse};
+use crate::form::account_manage::{LoginRequest, LoginResponse};
+use crate::form::common_error::{internal_server_error, CommonErrorResponseBody};
 use crate::setting::AppState;
 use actix_web::{post, web, Error, HttpResponse};
 use sea_orm::DatabaseConnection;
@@ -24,29 +23,28 @@ pub async fn account_registration(
     data: web::Data<AppState>,
     request: web::Json<AccountRegisterRequest>,
 ) -> Result<HttpResponse, Error> {
+    let validation_result: &str = validation_account_manage(&request);
+    if validation_result != "" {
+        return core::result::Result::Ok(HttpResponse::BadRequest().json(
+            AccountRegisterResponse {
+                message: validation_result.to_string(),
+            },
+        ));
+    }
+
     let conn: &DatabaseConnection = &data.conn;
 
-    match conn.ping().await {
+    match insert_account(conn, &request).await {
         Ok(_) => {
-            let pass_word = request.0.password;
-            Ok(create_account_registration_response(pass_word))
+            print!("success");
+            return Ok(HttpResponse::Ok().json(AccountRegisterResponse {
+                message: "success".to_string(),
+            }));
         }
-        Err(_) => {
-            let res: CommonErrorResponseBody = internal_server_error();
-            Ok(HttpResponse::InternalServerError().json(res))
+        Err(e) => {
+            Ok(HttpResponse::InternalServerError()
+                .json(internal_server_error(e.to_string().as_str())))
         }
-    }
-}
-
-fn create_account_registration_response(pass_word: String) -> HttpResponse {
-    if pass_word == "ng" {
-        return HttpResponse::BadRequest().json(AccountRegisterResponse {
-            message: "failed".to_string(),
-        });
-    } else {
-        return HttpResponse::Ok().json(AccountRegisterResponse {
-            message: "success".to_string(),
-        });
     }
 }
 
@@ -75,7 +73,7 @@ pub async fn auth_login(
             Ok(create_login_response(pass_word))
         }
         Err(_) => {
-            let res: CommonErrorResponseBody = internal_server_error();
+            let res: CommonErrorResponseBody = internal_server_error("");
             Ok(HttpResponse::InternalServerError().json(res))
         }
     }
