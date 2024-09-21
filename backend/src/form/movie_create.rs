@@ -3,7 +3,7 @@ use serde::Serialize;
 use utoipa::ToSchema;
 
 #[derive(Serialize, Deserialize, ToSchema)]
-pub struct MovieRegistrationRequest {
+pub struct MovieCreateRequest {
     pub title: String,
     pub description: String,
     pub memo: String,
@@ -15,6 +15,6 @@ pub struct MovieRegistrationRequest {
 }
 
 #[derive(Serialize, ToSchema)]
-pub struct MovieRegistrationResponse {
+pub struct MovieCreateResponse {
     pub message: String,
 }

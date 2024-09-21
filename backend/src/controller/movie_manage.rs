@@ -1,18 +1,17 @@
-use crate::form::commom_error::internal_server_error;
-use crate::form::commom_error::CommonErrorResponseBody;
-use crate::form::movie_registration::MovieRegistrationRequest;
-use crate::form::movie_registration::MovieRegistrationResponse;
+use crate::form::common_error::internal_server_error;
+use crate::form::common_error::CommonErrorResponseBody;
+use crate::form::movie_create::MovieCreateRequest;
+use crate::form::movie_create::MovieCreateResponse;
 use crate::setting::AppState;
-use actix_web::post;
-use actix_web::{web, Error, HttpResponse};
+use actix_web::{post, web, Error, HttpResponse};
 use sea_orm::DatabaseConnection;
 
 #[utoipa::path(
     post,
     path = "/movie/register",
-    request_body = MovieRegistrationRequest,
+    request_body = MovieCreateRequest,
     responses(
-        (status = 200, description = "登録成功時", body = MovieRegistrationResponse),
+        (status = 200, description = "登録成功時", body = MovieCreateResponse),
         (status = 500, description = "エラー発生時", body = CommonErrorResponseBody),
     )
 )]
@@ -20,7 +19,7 @@ use sea_orm::DatabaseConnection;
 #[post("/movie/register")]
 pub async fn movie_register(
     data: web::Data<AppState>,
-    request: web::Json<MovieRegistrationRequest>,
+    request: web::Json<MovieCreateRequest>,
 ) -> Result<HttpResponse, Error> {
     let conn: &DatabaseConnection = &data.conn;
     match conn.ping().await {
@@ -28,7 +27,7 @@ pub async fn movie_register(
             // requestをjson文字列に変換
             let request_json = serde_json::to_string(&request.0).unwrap();
 
-            let res: MovieRegistrationResponse = MovieRegistrationResponse {
+            let res: MovieCreateResponse = MovieCreateResponse {
                 message: "Your request_json is ".to_string() + &request_json,
             };
             Ok(HttpResponse::Ok().json(res))

@@ -1,3 +1,4 @@
-pub mod commom_error;
+pub mod account_manage;
+pub mod common_error;
 pub mod health_check;
-pub mod movie_registration;
+pub mod movie_create;
