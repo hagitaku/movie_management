@@ -36,7 +36,6 @@ pub async fn account_registration(
 
     match insert_account(conn, &request).await {
         Ok(_) => {
-            print!("success");
             return Ok(HttpResponse::Ok().json(AccountRegisterResponse {
                 message: "success".to_string(),
             }));
