@@ -44,12 +44,13 @@
     padding: 10px;
     box-sizing: border-box;
 }
-
 .login-password-error-message{
     color: #fc0505;
 }
-
 .login-submit-button{
     width: 100%;
     padding: 10px;
+}
+.api-error-message{
+    color: #fc0505;
 }

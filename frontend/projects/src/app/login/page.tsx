@@ -24,8 +24,6 @@ export const Login = () =>{
             const status = 200;
             if(status == 200){
                 router.push("../movielist")
-                console.log(submitForm);
-                alert("ログインしました！");
             }
             else if(status == 400){
                 setError("ユーザ名またはパスワードが間違っています．");
@@ -58,6 +56,9 @@ export const Login = () =>{
                     <button className={style["login-submit-button"]} type="submit">
                         登録
                     </button>
+                </div>
+                <div className={style["api-error-message"]}>
+                    {error && <div>{error}</div>}
                 </div>
             </form>
         </div>
