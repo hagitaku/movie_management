@@ -17,7 +17,7 @@ export const Login = () =>{
         handleSubmit,
         formState: {errors}
     } = form;
-    const handleClickLoginButton : SubmitHandler<LoginForm> = (submitForm : LoginForm) => {
+    const handleClickLoginButton : SubmitHandler<LoginForm> = async(submitForm : LoginForm) => {
         try{
             // TODO: ユーザログインのAPIが完成次第，処理を追加
             const response = "success";
