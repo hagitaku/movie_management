@@ -12,7 +12,7 @@ const TextBox = <T extends FieldValues>(props : TextBoxProps<T>) =>{
     const{
         title,
         name,
-        type,
+        type = "text",
         form,
     } = props;
     const { register } = form;
@@ -21,7 +21,7 @@ const TextBox = <T extends FieldValues>(props : TextBoxProps<T>) =>{
         <div className={style["text-box-field"]}> 
             <label htmlFor={name}>{ title }</label>
             <div className={style["text-box-input"]}>
-                <input id={name} {...register(name)} type={type || "text"}></input>
+                <input id={name} {...register(name)} type={type}></input>
             </div>
         </div>
     )
