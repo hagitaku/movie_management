@@ -11,8 +11,8 @@ use utoipa::OpenApi;
     components(schemas(
         crate::form::common_error::CommonErrorResponseBody,
         crate::form::health_check::HealthCheckResponse,
-        crate::form::movie_registration::MovieRegistrationRequest,
-        crate::form::movie_registration::MovieRegistrationResponse,
+        crate::form::movie_create::MovieCreateRequest,
+        crate::form::movie_create::MovieCreateResponse,
         crate::form::account_manage::AccountRegisterRequest,
         crate::form::account_manage::AccountRegisterResponse,
         crate::form::account_manage::LoginRequest,
