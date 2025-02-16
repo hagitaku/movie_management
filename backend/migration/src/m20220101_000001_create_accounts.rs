@@ -11,7 +11,6 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .if_not_exists()
                     .table(Accounts::Table)
-                    .if_not_exists()
                     .col(
                         ColumnDef::new(Accounts::Id)
                             .unsigned()

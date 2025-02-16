@@ -1,10 +1,11 @@
-use crate::constants::regex::{LOGIN_ID_REGEX, PASSWORD_1_REGEX};
+use crate::constants::regex::{LOGIN_ID_REGEX, PASSWORD_REGEX};
+use crate::constants::validation::{LOGIN_ID_MAX_LENGTH, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH};
 use crate::form::account_manage::AccountRegisterRequest;
 use actix_web::web;
 use regex::Regex;
 
 fn valid_login_id(login_id: &String) -> bool {
-    if login_id.len() > 16 {
+    if login_id.len() > LOGIN_ID_MAX_LENGTH {
         return false;
     }
     let re = Regex::new(LOGIN_ID_REGEX).unwrap();
@@ -12,10 +13,10 @@ fn valid_login_id(login_id: &String) -> bool {
 }
 
 fn valid_pass_word(password: &String) -> bool {
-    if password.len() < 8 || password.len() > 32 {
+    if password.len() < PASSWORD_MIN_LENGTH || password.len() > PASSWORD_MAX_LENGTH {
         return false;
     }
-    let re1 = Regex::new(PASSWORD_1_REGEX).unwrap();
+    let re1 = Regex::new(PASSWORD_REGEX).unwrap();
     // パスワードにアルファベットが含まれているかチェック
     let has_alpha = password.chars().any(|c| c.is_alphabetic());
     // パスワードに数字が含まれているかチェック
