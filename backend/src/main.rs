@@ -1,3 +1,4 @@
+mod constants;
 mod controller;
 mod form;
 mod model;
@@ -16,9 +17,10 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
     let database_user = env::var("DATABASE_USER").expect("DATABASE_USER must be set");
     let database_pass = env::var("DATABASE_PASS").expect("DATABASE_PASS must be set");
+    let database_name = env::var("DATABASE_NAME").expect("DATABASE_NAME must be set");
     let database_url = format!(
-        "{}{}{}{}{}",
-        "mysql://", database_user, ":", database_pass, "@mysql:3306"
+        "{}{}{}{}{}{}",
+        "mysql://", database_user, ":", database_pass, "@mysql:3306/", database_name
     );
 
     // DB接続

@@ -33,7 +33,7 @@ pub async fn movie_register(
             Ok(HttpResponse::Ok().json(res))
         }
         Err(_) => {
-            let res: CommonErrorResponseBody = internal_server_error();
+            let res: CommonErrorResponseBody = internal_server_error("");
             Ok(HttpResponse::InternalServerError().json(res))
         }
     }

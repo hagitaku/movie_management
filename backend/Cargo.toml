@@ -17,3 +17,4 @@ utoipa = { version = "4.2.3", features = ["actix_extras"] }
 utoipa-swagger-ui = { version = "7.1.0", features = ["actix-web"] }
 serde_json = "1.0.117"
 actix-cors = "0.7.0"
+regex = "1.10.6"

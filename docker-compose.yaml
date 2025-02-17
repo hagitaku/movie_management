@@ -2,7 +2,7 @@ services:
   backend:
     build:
       context: backend
-    command: "cargo watch -x run --poll"
+    command: bash -c "sea-orm-cli migrate refresh && cargo watch -x run --poll"
     volumes:
       - ./backend:/projects
       - backend_target:/projects/target
@@ -22,7 +22,7 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: db
+      MYSQL_DATABASE: movie_management
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     networks:

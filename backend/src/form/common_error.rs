@@ -7,8 +7,9 @@ pub struct CommonErrorResponseBody {
 }
 
 // 500系共通のエラーレスポンス
-pub fn internal_server_error() -> CommonErrorResponseBody {
+// message : エラーメッセージ(非必須でデフォルトで空文字列)
+pub fn internal_server_error(message: &str) -> CommonErrorResponseBody {
     return CommonErrorResponseBody {
-        message: "Internal Server Error".to_string(),
+        message: "Internal Server Error : ".to_string() + &message,
     };
 }
