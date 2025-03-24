@@ -44,7 +44,7 @@ export const Login = () => {
         >
           <div className={style["login-id-field"]}>
             <TextBox title="ID" name="loginId" form={form} />
-            <ProvideErrorMessage name="loginId" />
+            <ProvideErrorMessage<LoginForm> name="loginId" />
           </div>
           <div className={style["login-password-field"]}>
             <TextBox
@@ -53,7 +53,7 @@ export const Login = () => {
               type="password"
               form={form}
             />
-            <ProvideErrorMessage name="password" />
+            <ProvideErrorMessage<LoginForm> name="password" />
           </div>
           <div className={style["login-submit"]}>
             <button className={style["login-submit-button"]} type="submit">
