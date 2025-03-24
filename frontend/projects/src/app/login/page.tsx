@@ -7,6 +7,7 @@ import TextBox from "@/components/form/TextBox";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ProvideErrorMessage from "@/components/ProvideErrorMessage";
+import ApiErrorMessage from "@/components/ApiErrorMessage";
 
 export const Login = () => {
   const router = useRouter();
@@ -60,9 +61,7 @@ export const Login = () => {
               登録
             </button>
           </div>
-          <div className={style["api-error-message"]}>
-            {error && <div>{error}</div>}
-          </div>
+          <ApiErrorMessage errorMessage={error} />
         </form>
       </FormProvider>
     </div>
