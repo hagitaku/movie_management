@@ -58,7 +58,7 @@ export const Login = () => {
           </div>
           <div className={style["login-submit"]}>
             <button className={style["login-submit-button"]} type="submit">
-              登録
+              ログイン
             </button>
           </div>
           <ApiErrorMessage errorMessage={error} />

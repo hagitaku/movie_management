@@ -12,9 +12,7 @@ const ProvideErrorMessage = <T extends FieldValues>({
   } = useFormContext<T>();
   const error = errors[name];
   const errorMessage =
-    error && "message" in error && typeof error.message == "string"
-      ? error.message
-      : undefined; // 型ガードとプロパティ判定
+    typeof error?.message == "string" ? error.message : undefined; // 型ガードとプロパティ判定
 
   return (
     errorMessage && <div className={style["error-message"]}>{errorMessage}</div>
