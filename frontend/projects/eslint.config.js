@@ -19,7 +19,7 @@ const compat = new FlatCompat({
 });
 
 export default defineConfig([
-  globalIgnores(["**/node_modules/", "**/.eslintrc.js","/*.js"]),
+  globalIgnores(["**/node_modules/", "*.config.js",".eslintrc.js"]),
   {
     extends: fixupConfigRules(
       compat.extends(
@@ -57,15 +57,15 @@ export default defineConfig([
     },
 
     rules: {
-      "react/jsx-curly-brace-presence": "warn",
-      "simple-import-sort/imports": "error",
+      "react/jsx-curly-brace-presence": "warn", // 不要な波括弧禁止
+      "simple-import-sort/imports": "error", // importとexportのソート
       "simple-import-sort/exports": "error",
-      "import/first": "error",
-      "import/newline-after-import": "error",
-      "import/no-duplicates": "error",
-      "@typescript-eslint/no-explicit-any": "error",
-      "@typescript-eslint/no-unused-vars": "error",
-      "react/jsx-pascal-case": "error",
+      "import/first": "error", // importを先頭に
+      "import/newline-after-import": "error", // importの後に改行
+      "import/no-duplicates": "error", // importの重複禁止
+      "@typescript-eslint/no-explicit-any": "error", // any禁止
+      "@typescript-eslint/no-unused-vars": "error", // 未使用変数の禁止
+      "react/jsx-pascal-case": "error", // パスカルケースでコンポーネントを定義
 
       "object-shorthand": [
         "warn",
@@ -75,34 +75,35 @@ export default defineConfig([
         },
       ],
 
-      "eslint-comments/require-description": "error",
+      "eslint-comments/require-description": "error", //eslint-disable-next-lineのコメントは必ず説明を書く。https://mysticatea.github.io/eslint-plugin-eslint-comments/rules/require-description.html
 
       "eslint-comments/disable-enable-pair": [
-        "error",
+        "error", //https://mysticatea.github.io/eslint-plugin-eslint-comments/rules/disable-enable-pair.html
         {
           allowWholeFile: true,
         },
       ],
 
       "react/function-component-definition": [
-        "error",
+        "error", // 関数コンポーネントはアロー関数で定義
         {
           namedComponents: "arrow-function",
         },
       ],
 
       "no-magic-numbers": [
-        "error",
+        "error", // マジックナンバーの使用禁止．ただし，以下は除く．
         {
-          ignore: [-1, 0, 1],
-          ignoreDefaultValues: true,
-          ignoreArrayIndexes: true,
-          enforceConst: true,
+          ignore: [-1, 0, 1], //配列検索でindexOf === -1などは許容する
+          ignoreDefaultValues: true, //const { tax = 0.1 } = props
+          ignoreArrayIndexes: true, //data[100] ok
+          enforceConst: true, //マジックナンバーはconstで定義する
         },
       ],
     },
   },
   {
+    // Next.jsのファイルルーティングはexport defaultが必要
     files: ["*/pages/**/**.tsx"],
 
     rules: {
@@ -115,7 +116,7 @@ export default defineConfig([
     files: ["*/**/const/**/**.ts"],
 
     rules: {
-      "no-magic-numbers": "off",
+      "no-magic-numbers": "off", // constファイルでは許容する
     },
   },
 ]);
