@@ -19,7 +19,7 @@ const compat = new FlatCompat({
 });
 
 export default defineConfig([
-  globalIgnores(["**/node_modules/", "**/.eslintrc.js"]),
+  globalIgnores(["**/node_modules/", "**/.eslintrc.js","/*.js"]),
   {
     extends: fixupConfigRules(
       compat.extends(
@@ -33,7 +33,6 @@ export default defineConfig([
         "prettier"
       )
     ),
-
     plugins: {
       "@typescript-eslint": fixupPluginRules(typescriptEslint),
       "simple-import-sort": simpleImportSort,

@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prepare": "husky"
+    "prepare": "cd ../../ && husky frontend/projects/.husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -42,6 +42,9 @@
     "node": "20.10.0"
   },
   "lint-staged":{
-    "*.{ts,tsx}": "prettier --write"
+    "*.{ts,tsx}":[
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
