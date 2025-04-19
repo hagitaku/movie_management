@@ -1,0 +1,3 @@
+cd frontend/projects
+npx lint-staged
+
