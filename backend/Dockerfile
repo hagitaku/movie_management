@@ -1,4 +1,4 @@
-ARG RUST_VERSION=1.75.0
+ARG RUST_VERSION=1.81.0
 
 FROM rust:${RUST_VERSION}
 RUN cargo install cargo-watch
