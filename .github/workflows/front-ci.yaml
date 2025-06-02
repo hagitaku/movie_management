@@ -23,6 +23,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "20"
+      - name: Check npm version
+        run: npm --version
+      - name: Debug package-lock.json
+        run: ls -l frontend/projects/package-lock.json
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
