@@ -9,12 +9,15 @@ on:
       - develop
       - main
     paths:
-      - "frontend/**"
+      - "frontend/projects/**"
       - ".github/workflows/**"
 
 jobs:
   lint-and-format:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend/projects
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,7 +39,6 @@ jobs:
       #${{ runner.os }}-node-
       - name: Install dependencies
         run: npm ci
-        working-directory: frontend/projects
       - name: Format code
         run: npm run format
       - name: Lint code
