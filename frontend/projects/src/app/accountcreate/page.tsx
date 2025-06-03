@@ -21,7 +21,7 @@ export const AccountCreate = () => {
   const form = useForm<LoginForm>({
     resolver: yupResolver(loginSchema),
   });
-  const rounter = useRouter();
+  const router = useRouter();
   const [error, setError] = useState("");
   const { handleSubmit } = form;
   const handleSubmitAccountCreateButton = async (submitForm: LoginForm) => {
@@ -39,7 +39,7 @@ export const AccountCreate = () => {
     } catch (error) {
       setError(error instanceof Error ? error.message : "Unknown error");
     }
-    rounter.push("../movielist");
+    router.push("../movielist");
   };
   return (
     <div className={style["account-create-form-container"]}>
