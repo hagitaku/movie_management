@@ -11,7 +11,7 @@ import {
   CreateAccountResponseBody,
 } from "@/schema/createAccount";
 
-export const CreateAcount = async (req: CreateAccountRequestBody) => {
+export const createAcount = async (req: CreateAccountRequestBody) => {
   const url = new URL(`${BASE_API_URL}${CREATE_ACCOUNT_PATH}`);
   try {
     const res = await axios.post<CreateAccountResponseBody>(

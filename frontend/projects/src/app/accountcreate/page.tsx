@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { CreateAcount } from "@/api/account";
+import { createAcount } from "@/api/account";
 import ApiErrorMessage from "@/components/ApiErrorMessage";
 import TextBox from "@/components/form/TextBox";
 import ProvideErrorMessage from "@/components/ProvideErrorMessage";
@@ -29,15 +29,11 @@ export const AccountCreate = () => {
       id: submitForm.loginId,
       password: submitForm.password,
     };
-    try {
-      const res: CreateAccountResponse = await CreateAcount(requestBody);
-      // 200以外のステータスコードの場合はエラーメッセージを設定
-      if (res.status !== HTTP_STATUS_OK) {
-        setError(res.message);
-        return;
-      }
-    } catch (error) {
-      setError(error instanceof Error ? error.message : "Unknown error");
+    const res: CreateAccountResponse = await createAcount(requestBody);
+    // 200以外のステータスコードの場合はエラーメッセージを設定
+    if (res.status !== HTTP_STATUS_OK) {
+      setError(res.message);
+      return;
     }
     router.push("../movielist");
   };
