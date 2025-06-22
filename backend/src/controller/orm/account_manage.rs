@@ -42,7 +42,7 @@ pub async fn login_account(
     match ret {
         Some(model) => Ok(model),
         None => Err(sea_orm::DbErr::RecordNotFound(
-            "Account not found".to_owned(),
+            "Account not found".to_string(),
         )),
     }
 }
