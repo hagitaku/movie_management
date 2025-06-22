@@ -45,7 +45,7 @@ pub async fn account_registration(
             }));
         }
         Err(_) => {
-            return Ok(HttpResponse::BadRequest().json(LoginResponse {
+            return Ok(HttpResponse::BadRequest().json(AccountRegisterResponse {
                 message: PROCESS_FAILED_WITH_ACCOUNT.to_string(),
             }));
         }
