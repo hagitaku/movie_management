@@ -40,7 +40,6 @@ pub trait AccountCredentials {
     fn password(&self) -> &String;
 }
 
-// Implement the trait for AccountRegisterRequest
 impl AccountCredentials for AccountRegisterRequest {
     fn id(&self) -> &String {
         &self.id
@@ -50,7 +49,6 @@ impl AccountCredentials for AccountRegisterRequest {
     }
 }
 
-// Implement the trait for LoginRequest
 use crate::form::account_manage::LoginRequest;
 impl AccountCredentials for LoginRequest {
     fn id(&self) -> &String {
