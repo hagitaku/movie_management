@@ -1,3 +1,4 @@
+use crate::constants::failed_messages::PROCESS_FAILED_WITH_ACCOUNT;
 use crate::constants::regex::{LOGIN_ID_REGEX, PASSWORD_REGEX};
 use crate::constants::validation::{LOGIN_ID_MAX_LENGTH, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH};
 use crate::form::account_manage::AccountRegisterRequest;
@@ -28,12 +29,44 @@ fn valid_pass_word(password: &String) -> bool {
     return re1.is_match(password);
 }
 
-pub fn validation_account_manage(request: &web::Json<AccountRegisterRequest>) -> &str {
-    let login_id = &request.id;
-    let password = &request.password;
+/**
+ * アカウントの登録・ログインのバリデーション
+ * 同一のバリデーションを使用する
+ * 登録の型はAccountRegisterRequest、ログインの型はLoginRequest
+ * どちらもログインIDとパスワードを持つ
+ */
+pub trait AccountCredentials {
+    fn id(&self) -> &String;
+    fn password(&self) -> &String;
+}
+
+// Implement the trait for AccountRegisterRequest
+impl AccountCredentials for AccountRegisterRequest {
+    fn id(&self) -> &String {
+        &self.id
+    }
+    fn password(&self) -> &String {
+        &self.password
+    }
+}
+
+// Implement the trait for LoginRequest
+use crate::form::account_manage::LoginRequest;
+impl AccountCredentials for LoginRequest {
+    fn id(&self) -> &String {
+        &self.id
+    }
+    fn password(&self) -> &String {
+        &self.password
+    }
+}
+
+pub fn validation_account_manage<T: AccountCredentials>(request: &web::Json<T>) -> &str {
+    let login_id = request.id();
+    let password = request.password();
 
     if !valid_login_id(login_id) || !valid_pass_word(password) {
-        return "ログインIDもしくはパスワードが不正です";
+        return PROCESS_FAILED_WITH_ACCOUNT;
     }
 
     return "";

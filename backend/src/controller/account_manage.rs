@@ -1,10 +1,14 @@
+use crate::constants::failed_messages::PROCESS_FAILED_WITH_ACCOUNT;
 use crate::controller::orm::account_manage::insert_account;
 use crate::controller::validation::account_manage::validation_account_manage;
 use crate::form::account_manage::{AccountRegisterRequest, AccountRegisterResponse};
 use crate::form::account_manage::{LoginRequest, LoginResponse};
-use crate::form::common_error::{internal_server_error, CommonErrorResponseBody};
+use crate::form::common_error::CommonErrorResponseBody;
 use crate::setting::AppState;
+use actix_web::cookie::{Cookie, SameSite};
 use actix_web::{post, web, Error, HttpResponse};
+use rand::Rng;
+
 use sea_orm::DatabaseConnection;
 
 #[utoipa::path(
@@ -40,9 +44,10 @@ pub async fn account_registration(
                 message: "success".to_string(),
             }));
         }
-        Err(e) => {
-            Ok(HttpResponse::InternalServerError()
-                .json(internal_server_error(e.to_string().as_str())))
+        Err(_) => {
+            return Ok(HttpResponse::BadRequest().json(LoginResponse {
+                message: PROCESS_FAILED_WITH_ACCOUNT.to_string(),
+            }));
         }
     }
 }
@@ -57,35 +62,69 @@ pub async fn account_registration(
         (status = 500, description = "エラー発生時", body = CommonErrorResponseBody),
     )
 )]
-// ログインapi
+/**
+ * ログインapi
+ * ログインIDとパスワードを受け取り、認証を行う
+ * 認証に成功した場合は、セッションIDをCookieにセットして返す
+ * TODO: バリデーション失敗時、とログイン失敗時のレスポンスタイムを同一にするためにコントロールする
+ * TODO: 生成したtokenをDBに保存する
+ */
 #[post("/auth/login")]
 pub async fn auth_login(
     data: web::Data<AppState>,
     request: web::Json<LoginRequest>,
 ) -> Result<HttpResponse, Error> {
+    let validation_result: &str = validation_account_manage(&request);
+
+    if validation_result != "" {
+        return core::result::Result::Ok(HttpResponse::BadRequest().json(LoginResponse {
+            message: validation_result.to_string(),
+        }));
+    }
+
     let conn: &DatabaseConnection = &data.conn;
 
-    match conn.ping().await {
+    match crate::controller::orm::account_manage::login_account(conn, &request).await {
         Ok(_) => {
-            let pass_word = request.0.password;
-
-            Ok(create_login_response(pass_word))
+            return Ok(create_login_response());
         }
         Err(_) => {
-            let res: CommonErrorResponseBody = internal_server_error("");
-            Ok(HttpResponse::InternalServerError().json(res))
+            return Ok(HttpResponse::BadRequest().json(LoginResponse {
+                message: PROCESS_FAILED_WITH_ACCOUNT.to_string(),
+            }));
         }
     }
 }
 
-fn create_login_response(pass_word: String) -> HttpResponse {
-    if pass_word == "ng" {
-        return HttpResponse::BadRequest().json(LoginResponse {
-            message: "failed".to_string(),
-        });
-    } else {
-        return HttpResponse::Ok().json(LoginResponse {
-            message: "success".to_string(),
-        });
-    }
+fn create_login_response() -> HttpResponse {
+    // token用のランダムな32文字の文字列を生成
+    let pass_word = generate_random_string(32);
+
+    let cookie = Cookie::build("session", pass_word)
+        .path("/")
+        .http_only(true)
+        .secure(false) // 本番環境ではtrueにすること
+        .same_site(SameSite::Lax)
+        .finish();
+
+    HttpResponse::Ok().cookie(cookie).json(LoginResponse {
+        message: "success".to_string(),
+    })
+}
+
+/**
+ * ランダムな値を生成する
+ * 引数1: 文字列長
+ * 引数2: 文字列の文字セット
+ *
+ * TODO: 他にも使用する予定が出てきたらutil.rsに移動する
+ */
+fn generate_random_string(length: usize) -> String {
+    let pass_word = rand::rng()
+        .sample_iter(&rand::distr::Alphanumeric)
+        .take(length)
+        .map(char::from)
+        .collect::<String>();
+
+    return pass_word;
 }
