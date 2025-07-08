@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { createAcount } from "@/api/account";
+import { createAccount } from "@/api/account/createAccount";
 import ApiErrorMessage from "@/components/ApiErrorMessage";
 import TextBox from "@/components/form/TextBox";
 import ProvideErrorMessage from "@/components/ProvideErrorMessage";
@@ -29,7 +29,7 @@ export const AccountCreate = () => {
       id: submitForm.loginId,
       password: submitForm.password,
     };
-    const res: CreateAccountResponse = await createAcount(requestBody);
+    const res: CreateAccountResponse = await createAccount(requestBody);
     // 200以外のステータスコードの場合はエラーメッセージを設定
     if (res.status !== HTTP_STATUS_OK) {
       setError(res.message);
