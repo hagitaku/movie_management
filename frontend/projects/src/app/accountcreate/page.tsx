@@ -8,7 +8,7 @@ import { createAccount } from "@/api/account/createAccount";
 import ApiErrorMessage from "@/components/ApiErrorMessage";
 import TextBox from "@/components/form/TextBox";
 import ProvideErrorMessage from "@/components/ProvideErrorMessage";
-import { HTTP_STATUS_OK } from "@/constants";
+import { HTTP_MESSAGE_OK } from "@/constants";
 import {
   CreateAccountRequestBody,
   CreateAccountResponse,
@@ -30,8 +30,8 @@ export const AccountCreate = () => {
       password: submitForm.password,
     };
     const res: CreateAccountResponse = await createAccount(requestBody);
-    // 200以外のステータスコードの場合はエラーメッセージを設定
-    if (res.status !== HTTP_STATUS_OK) {
+    // 200以外のメッセージの場合はエラーメッセージを設定
+    if (res.message !== HTTP_MESSAGE_OK) {
       setError(res.message);
       return;
     }

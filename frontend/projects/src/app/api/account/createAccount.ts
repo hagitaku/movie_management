@@ -3,7 +3,7 @@ import axios from "axios";
 import {
   BASE_API_URL,
   CREATE_ACCOUNT_PATH,
-  HTTP_STATUS_INTERNAL_SERVER_ERROR,
+  HTTP_MESSAGE_UNKNOWN,
 } from "@/constants";
 import {
   CreateAccountRequestBody,
@@ -21,22 +21,19 @@ export const createAccount = async (req: CreateAccountRequestBody) => {
     // ステータスコードに応じてレスポンスメッセージを設定
     const createAccountResponse: CreateAccountResponse = {
       message: res.data.message,
-      status: res.status,
     };
     return createAccountResponse;
   } catch (error) {
     // unknownでないことを確認してハンドリング
     if (axios.isAxiosError(error)) {
       const createAccountResponse: CreateAccountResponse = {
-        message: error.response?.data.message || "Unknown error",
-        status: error.response?.status || HTTP_STATUS_INTERNAL_SERVER_ERROR,
+        message: error.response?.data.message || HTTP_MESSAGE_UNKNOWN,
       };
       return createAccountResponse;
     } else {
-      // Axios以外のエラーの場合は、500エラーとして処理
+      // こっちに来る場合は500エラーとして処理
       const createAccountResponse: CreateAccountResponse = {
-        message: "Unknown error",
-        status: HTTP_STATUS_INTERNAL_SERVER_ERROR,
+        message: HTTP_MESSAGE_UNKNOWN,
       };
       return createAccountResponse;
     }

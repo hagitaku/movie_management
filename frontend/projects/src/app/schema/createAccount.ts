@@ -4,7 +4,6 @@ export interface CreateAccountRequestBody {
 }
 export interface CreateAccountResponse {
   message: string;
-  status: number;
 }
 export interface CreateAccountResponseBody {
   message: string;
