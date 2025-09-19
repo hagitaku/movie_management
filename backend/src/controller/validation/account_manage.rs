@@ -59,13 +59,13 @@ impl AccountCredentials for LoginRequest {
     }
 }
 
-pub fn validation_account_manage<T: AccountCredentials>(request: &web::Json<T>) -> &str {
+pub fn validation_account_manage<T: AccountCredentials>(request: &web::Json<T>) -> String {
     let login_id = request.id();
     let password = request.password();
 
     if !valid_login_id(login_id) || !valid_pass_word(password) {
-        return PROCESS_FAILED_WITH_ACCOUNT;
+        return PROCESS_FAILED_WITH_ACCOUNT.to_owned();
     }
 
-    return "";
+    return "".to_owned();
 }

@@ -1,3 +1,5 @@
+use std::env;
+
 use crate::constants::failed_messages::PROCESS_FAILED_WITH_ACCOUNT;
 use crate::controller::orm::account_manage::insert_account;
 use crate::controller::validation::account_manage::validation_account_manage;
@@ -27,11 +29,11 @@ pub async fn account_registration(
     data: web::Data<AppState>,
     request: web::Json<AccountRegisterRequest>,
 ) -> Result<HttpResponse, Error> {
-    let validation_result: &str = validation_account_manage(&request);
+    let validation_result: String = validation_account_manage(&request);
     if validation_result != "" {
         return core::result::Result::Ok(HttpResponse::BadRequest().json(
             AccountRegisterResponse {
-                message: validation_result.to_string(),
+                message: validation_result,
             },
         ));
     }
@@ -41,13 +43,15 @@ pub async fn account_registration(
     match insert_account(conn, &request).await {
         Ok(_) => {
             return Ok(HttpResponse::Ok().json(AccountRegisterResponse {
-                message: "success".to_string(),
+                message: "success".to_owned(),
             }));
         }
         Err(_) => {
-            return Ok(HttpResponse::BadRequest().json(AccountRegisterResponse {
-                message: PROCESS_FAILED_WITH_ACCOUNT.to_string(),
-            }));
+            return Ok(
+                HttpResponse::InternalServerError().json(AccountRegisterResponse {
+                    message: PROCESS_FAILED_WITH_ACCOUNT.to_owned(),
+                }),
+            );
         }
     }
 }
@@ -74,11 +78,11 @@ pub async fn auth_login(
     data: web::Data<AppState>,
     request: web::Json<LoginRequest>,
 ) -> Result<HttpResponse, Error> {
-    let validation_result: &str = validation_account_manage(&request);
+    let validation_result: String = validation_account_manage(&request);
 
     if validation_result != "" {
         return core::result::Result::Ok(HttpResponse::BadRequest().json(LoginResponse {
-            message: validation_result.to_string(),
+            message: validation_result,
         }));
     }
 
@@ -90,25 +94,26 @@ pub async fn auth_login(
         }
         Err(_) => {
             return Ok(HttpResponse::BadRequest().json(LoginResponse {
-                message: PROCESS_FAILED_WITH_ACCOUNT.to_string(),
+                message: PROCESS_FAILED_WITH_ACCOUNT.to_owned(),
             }));
         }
     }
 }
 
 fn create_login_response() -> HttpResponse {
+    let env = env::var("ENVIRONMENT").unwrap_or_else(|_| "development".to_owned());
     // token用のランダムな32文字の文字列を生成
     let pass_word = generate_random_string(32);
 
     let cookie = Cookie::build("session", pass_word)
         .path("/")
         .http_only(true)
-        .secure(false) // 本番環境ではtrueにすること
+        .secure(env == "production") // 本番環境以外はfalse
         .same_site(SameSite::Lax)
         .finish();
 
     HttpResponse::Ok().cookie(cookie).json(LoginResponse {
-        message: "success".to_string(),
+        message: "success".to_owned(),
     })
 }
 
