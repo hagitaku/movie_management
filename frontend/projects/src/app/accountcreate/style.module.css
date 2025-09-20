@@ -1,0 +1,44 @@
+.account-create-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    max-width: 1200px;
+    padding: 20px;
+    margin: auto;
+}
+.account-create-form {
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+}
+.account-create-id-field {
+    margin-bottom: 15px;
+}
+.account-create-id-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.account-create-id-field input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.account-create-password-field {
+    margin-bottom: 15px;
+}
+.account-create-password-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.account-create-password-field input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.account-create-submit-button {
+    width: 100%;
+    padding: 10px;
+}
