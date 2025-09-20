@@ -16,13 +16,13 @@ pub async fn health_check(data: web::Data<AppState>) -> Result<HttpResponse, Err
     match conn.ping().await {
         Ok(_) => {
             let res = HealthCheckResponse {
-                message: "Database connection is OK".to_string(),
+                message: "Database connection is OK".to_owned(),
             };
             Ok(HttpResponse::Ok().json(res))
         }
         Err(_) => {
             let res = HealthCheckResponse {
-                message: "Database connection is NG".to_string(),
+                message: "Database connection is NG".to_owned(),
             };
             Ok(HttpResponse::InternalServerError().json(res))
         }

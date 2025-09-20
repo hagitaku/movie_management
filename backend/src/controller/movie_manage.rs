@@ -28,7 +28,7 @@ pub async fn movie_register(
             let request_json = serde_json::to_string(&request.0).unwrap();
 
             let res: MovieCreateResponse = MovieCreateResponse {
-                message: "Your request_json is ".to_string() + &request_json,
+                message: "Your request_json is ".to_owned() + &request_json,
             };
             Ok(HttpResponse::Ok().json(res))
         }
