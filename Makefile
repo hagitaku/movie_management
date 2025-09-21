@@ -6,7 +6,9 @@
 .PHONY: help
 help:
 	echo "backend: 	Build backend"
+	echo "frontend: 	Build frontend"
 	echo "log-backend: 	バックエンドのログを表示"
+	echo "log-frontend: 	フロントエンドのログを表示"
 	echo "down: 	コンテナを停止"
 	echo "barusu: 	滅びの呪文。全てのコンテナを根こそぎ消し去る"
 
@@ -24,5 +26,12 @@ down:
 
 .PHONY: barusu
 barusu:
-	docker-compose down --rmi all --volumes --remove-orphans
+	docker compose down --rmi all --volumes --remove-orphans
+
+.PHONY: frontend
+frontend:
+	docker compose up -d frontend
+.PHONY: log-frontend
+log-frontend:
+	docker compose logs -f frontend
 
