@@ -23,8 +23,8 @@ pub struct MovieListRequest {
     pub user_id: Option<i32>,
     pub user_name: Option<String>,
     pub sort_key: Option<SortKey>,
-    pub page: Option<i32>,
-    pub count: Option<i32>,
+    pub page: i32,
+    pub count: i32,
 }
 
 #[derive(Serialize, ToSchema)]

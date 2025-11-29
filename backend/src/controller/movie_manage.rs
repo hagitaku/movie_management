@@ -57,8 +57,9 @@ pub async fn movie_search(
     request: web::Json<MovieListRequest>,
 ) -> Result<HttpResponse, Error> {
     // mockのレスポンスを返す
-    let count: i32 = request.count.unwrap_or(10);
-    let page: i32 = request.page.unwrap_or(1);
+    let count: i32 = request.count;
+    let page: i32 = request.page;
+
     // countとpageに応じてレスポンスを変える
     let mut movie_list: Vec<crate::form::movie_list::MovieListItem> = Vec::new();
     for i in 0..count {
