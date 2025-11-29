@@ -52,7 +52,7 @@ pub async fn movie_register(
     )
 )]
 #[post("/movie/search")]
-pub async fn movie_list(
+pub async fn movie_search(
     _data: web::Data<AppState>,
     request: web::Json<MovieListRequest>,
 ) -> Result<HttpResponse, Error> {
