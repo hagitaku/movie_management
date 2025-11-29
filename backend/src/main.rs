@@ -39,6 +39,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(state.clone()))
             .service(controller::health_check::health_check)
             .service(controller::movie_manage::movie_register)
+            .service(controller::movie_manage::movie_search)
             .service(controller::account_manage::account_registration)
             .service(controller::account_manage::auth_login)
             .service(
