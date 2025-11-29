@@ -1,6 +1,13 @@
 "use client";
+import SearchMovieList from "@/components/SearchMovieList";
+
 import style from "./style.module.css";
+
 export const MovieList = () => {
-  return <h1>映画リスト</h1>;
+  return (
+    <div className={style["movie-list-container"]}>
+      <SearchMovieList />
+    </div>
+  );
 };
 export default MovieList;
