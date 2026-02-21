@@ -44,15 +44,16 @@ const SearchMovieList = ({
   };
   const onSubmit: SubmitHandler<SearchMovieListFormProps> = async (data) => {
     const searchMovieListRequest: SearchMovieListRequest = {
-      movie_id: data.movieId,
-      title: data.title,
-      created_at: data.createdDate,
-      description: data.description,
-      user_id: data.userId,
-      user_name: data.userName,
+      movie_id: Number(data.movieId) || undefined,
+      title: data.title || undefined,
+      created_at: data.createdDate || undefined,
+      description: data.description || undefined,
+      user_id: Number(data.userId) || undefined,
+      user_name: data.userName || undefined,
       page,
       count,
     };
+    console.log("SearchMovieListRequest:", searchMovieListRequest);
     const res = await searchMovieList(searchMovieListRequest);
     if ("message" in res) {
       setError(res.message);

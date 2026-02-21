@@ -5,11 +5,11 @@ export enum SortKey {
   DATE = "date",
 }
 export interface SearchMovieListRequest {
-  movie_id?: string;
+  movie_id?: number;
   title?: string;
   created_at?: string;
   description?: string;
-  user_id?: string;
+  user_id?: number;
   user_name?: string;
   sort_key?: SortKey;
   page: number;
@@ -17,12 +17,12 @@ export interface SearchMovieListRequest {
 }
 
 export interface SearchMovieResponse {
-  movie_id: string;
+  movie_id: number;
   title: string;
   description: string;
   user_name: string;
   created_date: string;
-  user_id: string;
+  user_id: number;
 }
 
 export interface SearchMovieListResponse {
