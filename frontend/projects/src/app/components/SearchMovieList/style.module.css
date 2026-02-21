@@ -30,6 +30,24 @@
     display: flex;
     flex-wrap: wrap;
 }
-.search-movie-list-form > div {
-        width: 50%;
+
+.search-movie-list-form-left-group,
+.search-movie-list-form-right-group {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.search-movie-list-form-left-group div{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+.search-movie-list-form-right-group div{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+.register-name-input-group{
+    display: flex;
+    flex-direction: column;
 }

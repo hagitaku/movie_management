@@ -1,7 +1,14 @@
+import { SearchMovieListResponse } from "@/schema/searchMovieList";
+
 import style from "./style.module.css";
 
-const ViewMovieList = () => {
+type ViewMovieListProps = {
+  viewMovieList: SearchMovieListResponse;
+};
+
+const ViewMovieList = ({ viewMovieList }: ViewMovieListProps) => {
   // モックデータ
+  /*
   const movieListMockData = {
     movie_list: [
       {
@@ -25,7 +32,7 @@ const ViewMovieList = () => {
     page: 1,
     count: 2,
   };
-
+  */
   return (
     <div className={style["view-movie-list-container"]}>
       <table className={style["view-movie-list-table"]}>
@@ -39,7 +46,7 @@ const ViewMovieList = () => {
           </tr>
         </thead>
         <tbody>
-          {movieListMockData.movie_list.map((movie) => (
+          {viewMovieList.movie_list.map((movie) => (
             <tr key={movie.movie_id}>
               <td>{movie.movie_id}</td>
               <td>{movie.title}</td>

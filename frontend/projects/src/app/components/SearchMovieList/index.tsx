@@ -2,8 +2,14 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 
+import { searchMovieList } from "@/api/movielist";
 import TextBox from "@/components/form/TextBox";
+import {
+  SearchMovieListRequest,
+  SearchMovieListResponse,
+} from "@/schema/searchMovieList";
 
+import ApiErrorMessage from "../ApiErrorMessage";
 import DatePicker from "../form/DatePicker";
 import TextArea from "../form/TextArea";
 import style from "./style.module.css";
@@ -17,15 +23,44 @@ type SearchMovieListFormProps = {
   userName: string;
   // タグ検索を追加予定
 };
-const SearchMovieList = () => {
+
+type SearchMovieListProps = {
+  page: number;
+  count: number;
+  onSearchResult: (data: SearchMovieListResponse) => void;
+};
+
+const SearchMovieList = ({
+  page,
+  count,
+  onSearchResult,
+}: SearchMovieListProps) => {
   const form = useForm<SearchMovieListFormProps>();
   const { handleSubmit } = form;
   const [IsAccordionOpen, setAccordionOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const handleClick = () => {
     setAccordionOpen(!IsAccordionOpen);
   };
-  const onSubmit: SubmitHandler<SearchMovieListFormProps> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<SearchMovieListFormProps> = async (data) => {
+    const searchMovieListRequest: SearchMovieListRequest = {
+      movie_id: data.movieId,
+      title: data.title,
+      created_at: data.createdDate,
+      description: data.description,
+      user_id: data.userId,
+      user_name: data.userName,
+      page,
+      count,
+    };
+    const res = await searchMovieList(searchMovieListRequest);
+    if ("message" in res) {
+      setError(res.message);
+    } else {
+      setError("");
+      onSearchResult(res);
+    }
+  };
 
   return (
     <div className={style["search-movie-list-container"]}>
@@ -51,14 +86,38 @@ const SearchMovieList = () => {
           onSubmit={handleSubmit(onSubmit)}
           className={style["search-movie-list-form"]}
         >
-          <TextBox title="映画ID" name="movieId" form={form} />
-          <TextBox title="登録者ID" name="userId" form={form} />
-          <TextBox title="タイトル" name="title" form={form} />
-          <TextBox title="登録者名" name="userName" form={form} />
-          <DatePicker title="登録日" name="createdDate" form={form} />
-          <TextArea title="映画説明" name="description" form={form} />
-          {/* TODO: 将来的にタグ検索を追加予定 */}
+          <div className={style["search-movie-list-form-left-group"]}>
+            <TextBox title="映画ID" name="movieId" form={form} />
+            <DatePicker title="登録日" name="createdDate" form={form} />
+            <TextBox title="タイトル" name="title" form={form} />
+            <TextArea title="映画説明" name="description" form={form} />
+          </div>
+          <div className={style["search-movie-list-form-right-group"]}>
+            <div className={style["register-name-group"]}>
+              <label htmlFor="userId" className={style["register-name-label"]}>
+                登録者
+              </label>
+              <div className={style["register-name-input-group"]}>
+                <input
+                  id="userId"
+                  type="text"
+                  placeholder="ユーザーID"
+                  className={style["register-name-id"]}
+                  {...form.register("userId")}
+                />
+                <input
+                  id="userName"
+                  type="text"
+                  placeholder="登録者名"
+                  className={style["register-name-input"]}
+                  {...form.register("userName")}
+                />
+              </div>
+            </div>
+          </div>
           <button type="submit">検索</button>
+          {/* TODO: 将来的にタグ検索を追加予定 */}
+          <ApiErrorMessage errorMessage={error} />
         </form>
       </div>
     </div>
