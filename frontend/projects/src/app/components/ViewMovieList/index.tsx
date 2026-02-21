@@ -29,7 +29,7 @@ const ViewMovieList = () => {
   return (
     <div className={style["view-movie-list-container"]}>
       <table className={style["view-movie-list-table"]}>
-        <thead>
+        <thead className={style["view-movie-table-header"]}>
           <tr>
             <th>映画ID</th>
             <th>映画タイトル</th>
