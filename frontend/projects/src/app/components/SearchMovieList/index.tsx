@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 
@@ -20,17 +20,9 @@ type SearchMovieListFormProps = {
 const SearchMovieList = () => {
   const form = useForm<SearchMovieListFormProps>();
   const { handleSubmit } = form;
-  const [IsAccordionOpen, setAccordionOpen] = useState(false);
-  useEffect(() => {
-    setAccordionOpen(false);
-  }, []);
-  const handleClick = (event: MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    if (IsAccordionOpen) {
-      setAccordionOpen(false);
-    } else {
-      setAccordionOpen(true);
-    }
+  const [IsAccordionOpen, setAccordionOpen] = useState<boolean>(false);
+  const handleClick = () => {
+    setAccordionOpen(!IsAccordionOpen);
   };
   const onSubmit: SubmitHandler<SearchMovieListFormProps> = (data) =>
     console.log(data);
