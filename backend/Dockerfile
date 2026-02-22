@@ -1,5 +1,5 @@
-ARG RUST_VERSION=1.82.0
+ARG RUST_VERSION=1.23.0
 
-FROM rust:${RUST_VERSION}
+FROM arm64v8/rust:${RUST_VERSION}
 RUN cargo install cargo-watch
 RUN cargo install sea-orm-cli
