@@ -1,3 +1,4 @@
+use crate::controller::validation::movie_management::validation_movie_management;
 use crate::form::common_error::internal_server_error;
 use crate::form::common_error::CommonErrorResponseBody;
 use crate::form::movie_create::MovieCreateRequest;
@@ -8,38 +9,47 @@ use crate::setting::AppState;
 use actix_web::{post, web, Error, HttpResponse};
 use sea_orm::DatabaseConnection;
 
-#[utoipa::path(
-    post,
-    path = "/movie/register",
-    request_body = MovieCreateRequest,
-    responses(
-        (status = 200, description = "登録成功時", body = MovieCreateResponse),
-        (status = 500, description = "エラー発生時", body = CommonErrorResponseBody),
-    )
-)]
-// 映画を登録するapi
-#[post("/movie/register")]
-pub async fn movie_register(
-    data: web::Data<AppState>,
-    request: web::Json<MovieCreateRequest>,
-) -> Result<HttpResponse, Error> {
-    let conn: &DatabaseConnection = &data.conn;
-    match conn.ping().await {
-        Ok(_) => {
-            // requestをjson文字列に変換
-            let request_json = serde_json::to_string(&request.0).unwrap();
+// #[utoipa::path(
+//     post,
+//     path = "/movie/register",
+//     request_body = MovieCreateRequest,
+//     responses(
+//         (status = 200, description = "登録成功時", body = MovieCreateResponse),
+//         (status = 500, description = "エラー発生時", body = CommonErrorResponseBody),
+//     )
+// )]
+// // 映画を登録するapi
+// #[post("/movie/register")]
+// pub async fn movie_register(
+//     data: web::Data<AppState>,
+//     request: web::Json<MovieCreateRequest>,
+// ) -> Result<HttpResponse, Error> {
+//     data
+//     let validation_result = validation_movie_management(&request);
+//     if validation_result != "" {
+//         let res: MovieCreateResponse = MovieCreateResponse {
+//             message: validation_result,
+//         };
+//         return Ok(HttpResponse::BadRequest().json(res));
+//     }
 
-            let res: MovieCreateResponse = MovieCreateResponse {
-                message: "Your request_json is ".to_owned() + &request_json,
-            };
-            Ok(HttpResponse::Ok().json(res))
-        }
-        Err(_) => {
-            let res: CommonErrorResponseBody = internal_server_error("");
-            Ok(HttpResponse::InternalServerError().json(res))
-        }
-    }
-}
+//     let conn: &DatabaseConnection = &data.conn;
+//     // 映画登録処理
+//     match internal_server_error() {
+//         Ok(_) => {
+//             return Ok(HttpResponse::Ok().json(MovieCreateResponse {
+//                 message: "success".to_owned(),
+//             }));
+//         }
+//         Err(_) => {
+//             return Ok(
+//                 HttpResponse::InternalServerError().json(CommonErrorResponseBody {
+//                     message: "映画の登録に失敗しました".to_owned(),
+//                 }),
+//             );
+//         }
+//     }
+// }
 
 // 映画の一覧を取得するapi
 #[utoipa::path(

@@ -4,12 +4,26 @@ mod form;
 mod model;
 mod setting;
 use actix_cors::Cors;
-use actix_web::{http, web, App, HttpServer};
+use actix_session::config::CookieContentSecurity::Private;
+use actix_session::storage::CookieSessionStore;
+use actix_session::SessionMiddleware;
+use actix_web::{cookie::Key, http, web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 mod swagger;
+
+fn session_middleware(secret_key: &str) -> SessionMiddleware<CookieSessionStore> {
+    SessionMiddleware::builder(
+        CookieSessionStore::default(),
+        Key::from(secret_key.as_bytes()),
+    )
+    .cookie_name(String::from("session_token"))
+    .cookie_content_security(Private)
+    .cookie_secure(false)
+    .build()
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -28,6 +42,8 @@ async fn main() -> std::io::Result<()> {
         sea_orm::Database::connect(database_url).await.unwrap();
     let state: setting::AppState = setting::AppState { conn };
 
+    let secret_key = "secret_key".repeat(7);
+
     HttpServer::new(move || {
         let cors = Cors::default()
             .allowed_origin("http://localhost:3000")
@@ -36,9 +52,10 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .wrap(cors)
+            .wrap(session_middleware(&secret_key))
             .app_data(web::Data::new(state.clone()))
             .service(controller::health_check::health_check)
-            .service(controller::movie_manage::movie_register)
+            // .service(controller::movie_manage::movie_register)
             .service(controller::movie_manage::movie_search)
             .service(controller::account_manage::account_registration)
             .service(controller::account_manage::auth_login)

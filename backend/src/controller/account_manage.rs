@@ -7,7 +7,8 @@ use crate::form::account_manage::{AccountRegisterRequest, AccountRegisterRespons
 use crate::form::account_manage::{LoginRequest, LoginResponse};
 use crate::form::common_error::CommonErrorResponseBody;
 use crate::setting::AppState;
-use actix_web::cookie::{Cookie, SameSite};
+use actix_session::Session;
+use actix_web::cookie::{Cookie, Key, SameSite};
 use actix_web::{post, web, Error, HttpResponse};
 use rand::Rng;
 
@@ -77,6 +78,7 @@ pub async fn account_registration(
 pub async fn auth_login(
     data: web::Data<AppState>,
     request: web::Json<LoginRequest>,
+    session: Session,
 ) -> Result<HttpResponse, Error> {
     let validation_result: String = validation_account_manage(&request);
 
@@ -90,7 +92,7 @@ pub async fn auth_login(
 
     match crate::controller::orm::account_manage::login_account(conn, &request).await {
         Ok(_) => {
-            return Ok(create_login_response());
+            return Ok(create_login_response(session));
         }
         Err(_) => {
             return Ok(HttpResponse::BadRequest().json(LoginResponse {
@@ -100,19 +102,13 @@ pub async fn auth_login(
     }
 }
 
-fn create_login_response() -> HttpResponse {
-    let env = env::var("ENVIRONMENT").unwrap_or_else(|_| "development".to_owned());
+fn create_login_response(session: Session) -> HttpResponse {
     // token用のランダムな32文字の文字列を生成
-    let pass_word = generate_random_string(32);
+    let session_token: String = generate_random_string(32);
 
-    let cookie = Cookie::build("session", pass_word)
-        .path("/")
-        .http_only(true)
-        .secure(env == "production") // 本番環境以外はfalse
-        .same_site(SameSite::Lax)
-        .finish();
+    session.insert("session_token", session_token).unwrap();
 
-    HttpResponse::Ok().cookie(cookie).json(LoginResponse {
+    HttpResponse::Ok().json(LoginResponse {
         message: "success".to_owned(),
     })
 }
