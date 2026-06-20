@@ -52,7 +52,7 @@ export default defineConfig([
       parserOptions: {
         project: "./tsconfig.json",
         tsconfigRootDir:
-          "/Users/hokto/Desktop/movie_management-develop/frontend/projects",
+          import.meta.dirname,
       },
     },
 
