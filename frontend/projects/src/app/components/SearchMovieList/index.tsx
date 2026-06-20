@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 
 import { searchMovieList } from "@/api/movielist";
 import TextBox from "@/components/form/TextBox";
+import { DEFAULT_COUNT, DEFAULT_PAGE } from "@/constants";
 import {
   SearchMovieListRequest,
   SearchMovieListResponse,
@@ -42,6 +43,22 @@ const SearchMovieList = ({
   const handleClick = () => {
     setAccordionOpen(!IsAccordionOpen);
   };
+  useEffect(() => {
+    const fetchMovieList = async () => {
+      const fetchMovieListRequest: SearchMovieListRequest = {
+        page: DEFAULT_PAGE,
+        count: DEFAULT_COUNT,
+      };
+      const res = await searchMovieList(fetchMovieListRequest);
+      if ("message" in res) {
+        setError(res.message);
+      } else {
+        setError("");
+        onSearchResult(res);
+      }
+    };
+    fetchMovieList();
+  }, []);
   const onSubmit: SubmitHandler<SearchMovieListFormProps> = async (data) => {
     const searchMovieListRequest: SearchMovieListRequest = {
       movie_id: Number(data.movieId) || undefined,
