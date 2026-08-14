@@ -1,0 +1,23 @@
+.pagination-ul {
+    display: flex;
+    font-size: 12px;
+}
+.pagination-item {
+    padding: 5px 10px;
+    list-style: none;
+    color: #337ab7;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.pagination-item-active {
+    padding: 5px 10px;
+    list-style: none;
+    color: #fff;
+    background-color: #337ab7;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    cursor: pointer;
+}
