@@ -6,13 +6,13 @@ import style from "./style.module.css";
 
 const Pagination = ({
   currentPage,
-  setCurrentPage,
+  handleClickPage,
   totalPage,
 }: PaginationProps) => {
   const [pageNumberList, setPageNumberList] = useState<Array<number>>([]);
   useEffect(() => {
     setPageNumberList([...Array(totalPage)].map((_, i) => i + 1));
-  }, []);
+  }, [totalPage]);
   return (
     <div className={style["pagination-container"]}>
       <ul className={style["pagination-ul"]}>
@@ -24,7 +24,7 @@ const Pagination = ({
                 : style["pagination-item"]
             }
             key={page}
-            onClick={() => setCurrentPage(page)}
+            onClick={() => handleClickPage(page)}
           >
             {page}
           </li>
