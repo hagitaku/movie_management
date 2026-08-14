@@ -1,3 +1,6 @@
 .movie-list-container {
   padding: 20px;
 }
+.movie-list-container ul{
+    justify-content: center;
+}
