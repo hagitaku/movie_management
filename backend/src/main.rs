@@ -48,14 +48,15 @@ async fn main() -> std::io::Result<()> {
         let cors = Cors::default()
             .allowed_origin("http://localhost:3000")
             .allowed_methods(vec!["GET", "POST", "OPTIONS", "DELETE", "PUT"])
-            .allowed_header(http::header::CONTENT_TYPE);
+            .allowed_header(http::header::CONTENT_TYPE)
+            .supports_credentials();
 
         App::new()
             .wrap(cors)
             .wrap(session_middleware(&secret_key))
             .app_data(web::Data::new(state.clone()))
             .service(controller::health_check::health_check)
-            // .service(controller::movie_manage::movie_register)
+            .service(controller::movie_manage::movie_register)
             .service(controller::movie_manage::movie_search)
             .service(controller::account_manage::account_registration)
             .service(controller::account_manage::auth_login)

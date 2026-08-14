@@ -1,14 +1,11 @@
-use std::env;
-
 use crate::constants::failed_messages::PROCESS_FAILED_WITH_ACCOUNT;
-use crate::controller::orm::account_manage::insert_account;
+use crate::controller::orm::account_manage::{insert_account, replace_session};
 use crate::controller::validation::account_manage::validation_account_manage;
 use crate::form::account_manage::{AccountRegisterRequest, AccountRegisterResponse};
 use crate::form::account_manage::{LoginRequest, LoginResponse};
 use crate::form::common_error::CommonErrorResponseBody;
 use crate::setting::AppState;
 use actix_session::Session;
-use actix_web::cookie::{Cookie, Key, SameSite};
 use actix_web::{post, web, Error, HttpResponse};
 use rand::Rng;
 
@@ -91,8 +88,19 @@ pub async fn auth_login(
     let conn: &DatabaseConnection = &data.conn;
 
     match crate::controller::orm::account_manage::login_account(conn, &request).await {
-        Ok(_) => {
-            return Ok(create_login_response(session));
+        Ok(account) => {
+            let session_token = generate_random_string(32);
+            if replace_session(conn, account.id, &session_token)
+                .await
+                .is_err()
+            {
+                return Ok(
+                    HttpResponse::InternalServerError().json(CommonErrorResponseBody {
+                        message: "セッションの作成に失敗しました".to_owned(),
+                    }),
+                );
+            }
+            return create_login_response(session, session_token);
         }
         Err(_) => {
             return Ok(HttpResponse::BadRequest().json(LoginResponse {
@@ -102,15 +110,13 @@ pub async fn auth_login(
     }
 }
 
-fn create_login_response(session: Session) -> HttpResponse {
+fn create_login_response(session: Session, session_token: String) -> Result<HttpResponse, Error> {
     // token用のランダムな32文字の文字列を生成
-    let session_token: String = generate_random_string(32);
+    session.insert("session_token", session_token)?;
 
-    session.insert("session_token", session_token).unwrap();
-
-    HttpResponse::Ok().json(LoginResponse {
+    Ok(HttpResponse::Ok().json(LoginResponse {
         message: "success".to_owned(),
-    })
+    }))
 }
 
 /**
