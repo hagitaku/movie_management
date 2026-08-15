@@ -1,0 +1,18 @@
+.view-movie-list-container {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+.view-movie-list-table {
+  border-collapse: collapse;
+  text-align: center;
+}
+.view-movie-table-header{
+  background-color: #d3d3d3;
+  position: sticky;
+  top: 0;
+}
+.view-movie-list-table th,
+.view-movie-list-table td {
+  border: 1px solid #000;
+  padding: 8px;
+}
