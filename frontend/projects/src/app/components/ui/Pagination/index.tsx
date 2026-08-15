@@ -8,11 +8,23 @@ const Pagination = ({
   currentPage,
   handleClickPage,
   totalPage,
+  maxPaginationItem,
 }: PaginationProps) => {
   const [pageNumberList, setPageNumberList] = useState<Array<number>>([]);
+
+  const generatePageNumberList = (currentPage: number, totalPage: number) => {
+    const pageDiff = totalPage - currentPage + 1;
+    if (pageDiff < maxPaginationItem) {
+      return [...Array(maxPaginationItem)].map(
+        (_, i) => totalPage - maxPaginationItem + i + 1,
+      );
+    }
+    return [...Array(maxPaginationItem)].map((_, i) => currentPage + i);
+  };
+
   useEffect(() => {
-    setPageNumberList([...Array(totalPage)].map((_, i) => i + 1));
-  }, [totalPage]);
+    setPageNumberList(generatePageNumberList(currentPage, totalPage));
+  }, [totalPage, currentPage]);
   return (
     <div className={style["pagination-container"]}>
       <ul className={style["pagination-ul"]}>

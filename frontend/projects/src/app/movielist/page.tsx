@@ -5,7 +5,7 @@ import { searchMovieList } from "@/api/movielist";
 import SearchMovieList from "@/components/SearchMovieList";
 import Pagination from "@/components/ui/Pagination";
 import ViewMovieList from "@/components/ViewMovieList";
-import { DEFAULT_COUNT, DEFAULT_PAGE } from "@/constants";
+import { DEFAULT_COUNT, DEFAULT_PAGE, MAX_PAGINATION_ITEM } from "@/constants";
 import {
   SearchMovieListRequest,
   SearchMovieListResponse,
@@ -53,6 +53,7 @@ export const MovieList = () => {
         currentPage={page}
         totalPage={totalCount}
         handleClickPage={handleClickPage}
+        maxPaginationItem={MAX_PAGINATION_ITEM}
       />
       <SearchMovieList
         page={DEFAULT_PAGE}
@@ -64,6 +65,7 @@ export const MovieList = () => {
         currentPage={page}
         totalPage={totalCount}
         handleClickPage={handleClickPage}
+        maxPaginationItem={MAX_PAGINATION_ITEM}
       />
     </div>
   );

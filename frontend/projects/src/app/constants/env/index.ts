@@ -16,3 +16,4 @@ export const HTTP_MESSAGE_OK = "success";
 
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_COUNT = 20;
+export const MAX_PAGINATION_ITEM = 10;
