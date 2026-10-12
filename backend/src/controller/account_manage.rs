@@ -111,7 +111,6 @@ pub async fn auth_login(
 }
 
 fn create_login_response(session: Session, session_token: String) -> Result<HttpResponse, Error> {
-    // token用のランダムな32文字の文字列を生成
     session.insert("session_token", session_token)?;
 
     Ok(HttpResponse::Ok().json(LoginResponse {
