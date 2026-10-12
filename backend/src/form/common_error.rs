@@ -3,7 +3,7 @@ use utoipa::ToSchema;
 
 #[derive(Serialize, ToSchema)]
 pub struct CommonErrorResponseBody {
-    message: String,
+    pub message: String,
 }
 
 // 500系共通のエラーレスポンス
