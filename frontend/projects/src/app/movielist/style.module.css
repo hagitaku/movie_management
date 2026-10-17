@@ -4,3 +4,16 @@
 .movie-list-container ul{
     justify-content: center;
 }
+.movie-list-view-count{
+  text-align: right;
+}
+.movie-list-view-count-a {
+  padding: 2px 4px;
+  color: #337ab7;
+  cursor: pointer;
+}
+.movie-list-view-count-a-active {
+  padding: 2px 4px;
+  color: black;
+  cursor: pointer;
+}

@@ -29,7 +29,7 @@ const Pagination = ({
     <div className={style["pagination-container"]}>
       <ul className={style["pagination-ul"]}>
         {pageNumberList.map((page) => (
-          <li
+          <a
             className={
               page === currentPage
                 ? style["pagination-item-active"]
@@ -39,7 +39,7 @@ const Pagination = ({
             onClick={() => handleClickPage(page)}
           >
             {page}
-          </li>
+          </a>
         ))}
       </ul>
     </div>

@@ -17,3 +17,6 @@ export const HTTP_MESSAGE_OK = "success";
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_COUNT = 20;
 export const MAX_PAGINATION_ITEM = 10;
+
+// eslint-disable-next-line no-magic-numbers -- 配列の要素だから
+export const ROW_COUNT_LIST_FOR_MOVIE_LIST = [10, 20, 50, 100];
