@@ -1,0 +1,53 @@
+.search-movie-list-container {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.search-movie-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.search-movie-list-header-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.search-movie-list-header-icon-close {
+    font-size: 18px;
+    cursor: pointer;
+}
+.search-movie-list-header-icon-open {
+    font-size: 18px;
+    cursor: pointer;
+}
+.search-movie-list-body {
+    padding: 10px;
+}
+.search-movie-list-form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.search-movie-list-form-left-group,
+.search-movie-list-form-right-group {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.search-movie-list-form-left-group div{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+.search-movie-list-form-right-group div{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+.register-name-input-group{
+    display: flex;
+    flex-direction: column;
+}
