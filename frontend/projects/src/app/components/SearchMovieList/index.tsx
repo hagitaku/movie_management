@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 
-import { searchMovieList } from "@/api/movielist";
 import TextBox from "@/components/form/TextBox";
-import { DEFAULT_COUNT, DEFAULT_PAGE } from "@/constants";
-import {
-  SearchMovieListRequest,
-  SearchMovieListResponse,
-} from "@/schema/searchMovieList";
+import { SearchMovieListRequest } from "@/schema/searchMovieList";
 
-import ApiErrorMessage from "../ApiErrorMessage";
 import DatePicker from "../form/DatePicker";
 import TextArea from "../form/TextArea";
 import style from "./style.module.css";
@@ -28,37 +22,21 @@ type SearchMovieListFormProps = {
 type SearchMovieListProps = {
   page: number;
   count: number;
-  onSearchResult: (data: SearchMovieListResponse) => void;
+  getMovieListWith: (request: SearchMovieListRequest) => void;
 };
 
 const SearchMovieList = ({
   page,
   count,
-  onSearchResult,
+  getMovieListWith,
 }: SearchMovieListProps) => {
   const form = useForm<SearchMovieListFormProps>();
   const { handleSubmit } = form;
   const [IsAccordionOpen, setAccordionOpen] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
   const handleClick = () => {
     setAccordionOpen(!IsAccordionOpen);
   };
-  useEffect(() => {
-    const fetchMovieList = async () => {
-      const fetchMovieListRequest: SearchMovieListRequest = {
-        page: DEFAULT_PAGE,
-        count: DEFAULT_COUNT,
-      };
-      const res = await searchMovieList(fetchMovieListRequest);
-      if ("message" in res) {
-        setError(res.message);
-      } else {
-        setError("");
-        onSearchResult(res);
-      }
-    };
-    fetchMovieList();
-  }, []);
+
   const onSubmit: SubmitHandler<SearchMovieListFormProps> = async (data) => {
     const searchMovieListRequest: SearchMovieListRequest = {
       movie_id: Number(data.movieId) || undefined,
@@ -70,14 +48,9 @@ const SearchMovieList = ({
       page,
       count,
     };
+
     console.log("SearchMovieListRequest:", searchMovieListRequest);
-    const res = await searchMovieList(searchMovieListRequest);
-    if ("message" in res) {
-      setError(res.message);
-    } else {
-      setError("");
-      onSearchResult(res);
-    }
+    getMovieListWith(searchMovieListRequest);
   };
 
   return (
@@ -135,7 +108,6 @@ const SearchMovieList = ({
           </div>
           <button type="submit">検索</button>
           {/* TODO: 将来的にタグ検索を追加予定 */}
-          <ApiErrorMessage errorMessage={error} />
         </form>
       </div>
     </div>

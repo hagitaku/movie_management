@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { searchMovieList } from "@/api/movielist";
+import ApiErrorMessage from "@/components/ApiErrorMessage";
 import SearchMovieList from "@/components/SearchMovieList";
 import Pagination from "@/components/ui/Pagination";
 import ViewMovieList from "@/components/ViewMovieList";
@@ -18,6 +19,7 @@ export const MovieList = () => {
   const [count] = useState<number>(DEFAULT_COUNT);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [, setTotalPage] = useState<number>(DEFAULT_PAGE);
+  const [error, setError] = useState<string>("");
 
   const [viewMovieList, setViewMovieList] = useState<SearchMovieListResponse>({
     movie_list: [],
@@ -25,28 +27,28 @@ export const MovieList = () => {
     page: DEFAULT_PAGE,
     count: DEFAULT_COUNT,
   });
-  // 検索結果を受け取るコールバック関数
-  const handleSearchResult = (data: SearchMovieListResponse) => {
-    setViewMovieList(data);
-    setTotalCount(data.total_count);
-    setTotalPage(Math.ceil(data.total_count / data.count));
-  };
-
   const handleClickPage = async (page: number) => {
     setPage(page);
-    const movieListRequestWithCurrentPageAndCount: SearchMovieListRequest = {
+  };
+
+  const getMovieListWith = async (request: SearchMovieListRequest) => {
+    const response = await searchMovieList(request);
+    if ("message" in response) {
+      setError(response.message);
+    } else {
+      setError("");
+      setViewMovieList(response);
+      setTotalCount(response.total_count);
+      setTotalPage(Math.ceil(response.total_count / response.count));
+    }
+  };
+  useEffect(() => {
+    const fetchMovieListRequest: SearchMovieListRequest = {
       page,
       count,
     };
-    const response = await searchMovieList(
-      movieListRequestWithCurrentPageAndCount,
-    );
-    if ("message" in response) {
-      // TODO: エラーハンドリング
-    } else {
-      handleSearchResult(response);
-    }
-  };
+    getMovieListWith(fetchMovieListRequest);
+  }, [page, count]);
   return (
     <div className={style["movie-list-container"]}>
       <Pagination
@@ -55,10 +57,11 @@ export const MovieList = () => {
         handleClickPage={handleClickPage}
         maxPaginationItem={MAX_PAGINATION_ITEM}
       />
+      <ApiErrorMessage errorMessage={error} />
       <SearchMovieList
         page={DEFAULT_PAGE}
         count={DEFAULT_COUNT}
-        onSearchResult={handleSearchResult}
+        getMovieListWith={getMovieListWith}
       />
       <ViewMovieList viewMovieList={viewMovieList} />
       <Pagination
