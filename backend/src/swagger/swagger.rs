@@ -5,6 +5,7 @@ use utoipa::OpenApi;
     paths(
         crate::controller::health_check::health_check,
         crate::controller::movie_manage::movie_register,
+        crate::controller::movie_manage::movie_search,
         crate::controller::account_manage::account_registration,
         crate::controller::account_manage::auth_login
     ),
@@ -13,6 +14,10 @@ use utoipa::OpenApi;
         crate::form::health_check::HealthCheckResponse,
         crate::form::movie_create::MovieCreateRequest,
         crate::form::movie_create::MovieCreateResponse,
+        crate::form::movie_list::MovieListRequest,
+        crate::form::movie_list::MovieListResponse,
+        crate::form::movie_list::MovieListItem,
+        crate::form::movie_list::SortKey,
         crate::form::account_manage::AccountRegisterRequest,
         crate::form::account_manage::AccountRegisterResponse,
         crate::form::account_manage::LoginRequest,

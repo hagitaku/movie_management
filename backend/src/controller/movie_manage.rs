@@ -1,13 +1,17 @@
 use crate::controller::orm::account_manage::account_id_from_session;
-use crate::controller::orm::movie_manage::insert_movie;
+use crate::controller::orm::movie_manage::{insert_movie, search_movies};
 use crate::controller::validation::movie_management::validation_movie_management;
 use crate::form::common_error::CommonErrorResponseBody;
 use crate::form::movie_create::{MovieCreateRequest, MovieCreateResponse};
-use crate::form::movie_list::{MovieListItem, MovieListRequest, MovieListResponse};
+use crate::form::movie_list::{MovieListRequest, MovieListResponse};
 use crate::setting::AppState;
 use actix_session::Session;
 use actix_web::{post, web, Error, HttpResponse};
 use sea_orm::DatabaseConnection;
+
+#[cfg(test)]
+#[path = "movie_manage_tests.rs"]
+mod tests;
 
 #[utoipa::path(
     post,
@@ -77,34 +81,27 @@ pub async fn movie_register(
     request_body = MovieListRequest,
     responses(
         (status = 200, description = "映画一覧取得", body = MovieListResponse),
+        (status = 400, description = "検索条件不正", body = CommonErrorResponseBody),
         (status = 500, description = "エラー発生", body = CommonErrorResponseBody),
     )
 )]
 #[post("/movie/search")]
 pub async fn movie_search(
-    _data: web::Data<AppState>,
+    data: web::Data<AppState>,
     request: web::Json<MovieListRequest>,
 ) -> Result<HttpResponse, Error> {
-    let count = request.count;
-    let page = request.page;
-    let mut movie_list: Vec<MovieListItem> = Vec::new();
-
-    for i in 0..count {
-        let movie_id = (page - 1) * count + i + 1;
-        movie_list.push(MovieListItem {
-            movie_id,
-            title: format!("Movie Title {movie_id}"),
-            description: format!("Description for movie {movie_id}"),
-            user_name: format!("User {movie_id}"),
-            created_date: "2024-01-01".to_owned(),
-            user_id: movie_id + 1000,
-        });
+    if let Err(message) = request.validate() {
+        return Ok(HttpResponse::BadRequest().json(CommonErrorResponseBody {
+            message: message.to_owned(),
+        }));
     }
 
-    Ok(HttpResponse::Ok().json(MovieListResponse {
-        movie_list,
-        total_count: 100,
-        page,
-        count,
-    }))
+    match search_movies(&data.conn, &request).await {
+        Ok(response) => Ok(HttpResponse::Ok().json(response)),
+        Err(_) => Ok(
+            HttpResponse::InternalServerError().json(CommonErrorResponseBody {
+                message: "映画一覧の取得に失敗しました".to_owned(),
+            }),
+        ),
+    }
 }
