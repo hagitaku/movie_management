@@ -14,6 +14,13 @@
       "source.fixAll.eslint": "explicit"
     }
   },
+  "[css]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
   "eslint.validate": ["typescript","typescriptreact"],
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "eslint.format.enable": false,// prettierを用いる場合に設定
